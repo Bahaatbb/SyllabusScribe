@@ -1,4 +1,5 @@
-# Mantine Vite template
+# SyllabusScribe
+React frontend of SyllabusScribe
 
 ## Features
 

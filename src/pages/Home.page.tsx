@@ -1,11 +1,6 @@
-import { Welcome } from '../components/Welcome/Welcome';
-import { ColorSchemeToggle } from '../components/ColorSchemeToggle/ColorSchemeToggle';
+import { Container } from '@/components/Container/Container';
+import react from 'react';
 
 export function HomePage() {
-  return (
-    <>
-      <Welcome />
-      <ColorSchemeToggle />
-    </>
-  );
+  return <Container>hello</Container>;
 }
