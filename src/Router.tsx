@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { HomePage, TeacherGarage, TeacherWork } from './pages';
+import { HomePage, EducationalGarage, History, LoginPage, RegisterPage } from './pages';
 import { ROUTES } from './constants/routes.enum';
 
 const router = createBrowserRouter([
@@ -8,13 +8,21 @@ const router = createBrowserRouter([
     element: <HomePage />,
   },
   {
-    path: ROUTES.TEACHER_GARAGE,
-    element: <TeacherGarage />,
+    path: ROUTES.EDUCATIONAL_GARAGE,
+    element: <EducationalGarage />,
   },
   {
-    path: ROUTES.TEACHER_WORK,
-    element: <TeacherWork />,
+    path: ROUTES.HISTORY,
+    element: <History />,
   },
+  {
+    path:ROUTES.LOGIN,
+    element: <LoginPage />
+  },
+  {
+    path:ROUTES.REGISTER,
+    element: <RegisterPage />
+  }
 ]);
 
 export function Router() {

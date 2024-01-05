@@ -1,5 +1,7 @@
 import { HomePage } from './Home.page';
-import { TeacherGarage } from './TeacherGarage.page';
-import { TeacherWork } from './TeacherWork.page';
+import { EducationalGarage } from './EducationalGarage.page';
+import { History } from './History.page';
+import { LoginPage } from './Login.page';
+import { RegisterPage } from './Register.page';
 
-export { HomePage, TeacherGarage, TeacherWork };
+export { HomePage, EducationalGarage, History, LoginPage, RegisterPage };

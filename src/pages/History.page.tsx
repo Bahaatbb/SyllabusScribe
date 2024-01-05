@@ -1,12 +1,12 @@
 import { Container } from '@/components';
 import React from 'react';
 
-const TeacherWork = () => {
+const History = () => {
   return (
     <Container>
-      <div>TeacherWork</div>
+      <div>History</div>
     </Container>
   );
 };
 
-export { TeacherWork };
+export { History };

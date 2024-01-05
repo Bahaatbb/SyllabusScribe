@@ -19,19 +19,19 @@ export function Container({ children }: { children: ReactNode }) {
   const menuItems = [
     {
       icon: <IconBook style={{ width: rem(30), height: rem(40) }} stroke={1.5} />,
-      label: 'Unit planner',
-      link: '/',
+      label: 'Syllabus Scriber',
+      link: ROUTES.HOME,
     },
 
     {
       icon: <IconListDetails style={{ width: rem(30), height: rem(40) }} stroke={1.5} />,
-      label: "Teacher's garage",
-      link: ROUTES.TEACHER_GARAGE,
+      label: "Educational garage",
+      link: ROUTES.EDUCATIONAL_GARAGE,
     },
     {
       icon: <IconHistoryToggle style={{ width: rem(30), height: rem(40) }} stroke={1.5} />,
-      label: "Teacher's work",
-      link: ROUTES.TEACHER_WORK,
+      label: "History",
+      link: ROUTES.HISTORY,
     },
   ];
 
@@ -43,7 +43,7 @@ export function Container({ children }: { children: ReactNode }) {
       withBorder={true}
       /**
        *  TODO: Change desktop:false when we apply authentication
-       */
+       **/
       navbar={{ width: 300, breakpoint: 'sm', collapsed: { desktop: false, mobile: !opened } }}
       padding="md"
     >

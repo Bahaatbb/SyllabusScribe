@@ -4,14 +4,19 @@ import { Router } from './Router';
 import { theme } from './theme';
 import { NavigationProgress } from '@mantine/nprogress';
 import { ModalsProvider } from '@mantine/modals';
+import { MobxStoreProvider } from './lib/mobx/store-provider';
+import MobxStoreInit from './lib/mobx/store-init';
 
 export default function App() {
   return (
-    <MantineProvider theme={theme}>
-      <NavigationProgress />
-      <ModalsProvider>
-        <Router />
-      </ModalsProvider>
-    </MantineProvider>
+    <MobxStoreProvider>
+      <MobxStoreInit />
+      <MantineProvider theme={theme}>
+        <NavigationProgress />
+        <ModalsProvider>
+          <Router />
+        </ModalsProvider>
+      </MantineProvider>
+    </MobxStoreProvider>
   );
 }
