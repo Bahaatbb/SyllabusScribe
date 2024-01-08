@@ -11,7 +11,6 @@ interface INavMenuProps {
     testId?: string;
     rightSide?: ReactNode;
     condition?: boolean;
-    isActive?: boolean;
   }[];
 }
 
@@ -22,10 +21,9 @@ export function NavMenu({ menuItems }: INavMenuProps) {
       {menuItems
         .filter(({ condition = true }) => condition)
         .map(({ icon, link, label, rightSide }) => {
-          const isActive = pathname === link;
-
+          let isActive = link == '/' ? pathname === link : pathname.startsWith(link);
           return (
-            <Link isActive={isActive} key={link} to={link}>
+            <Link active={isActive.toString()} key={link} to={link}>
               <Group gap={'24px'}>
                 <LinkIcon>{icon}</LinkIcon>
                 <LinkLabel>{label}</LinkLabel>

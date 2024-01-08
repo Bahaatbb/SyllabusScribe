@@ -14,18 +14,22 @@ import {
 import { z } from 'zod';
 
 import { GoogleButton } from './GoogleButton';
-import { Link } from 'react-router-dom';
+import { Link, redirect, useNavigate } from 'react-router-dom';
+import { ILoginInData } from '@/types/auth';
+import { AuthService } from '@/services/auth.service';
 
 const schema = z.object({
-  email: z.string().email({ message: 'Invalid email' }),
+  username: z.string(),
   password: z.string(),
 });
 
+const authService = new AuthService();
+
 function Login(props: PaperProps) {
-  const form = useForm<{ email: string; password: string }>({
+  const form = useForm<{ username: string; password: string }>({
     validate: zodResolver(schema),
     initialValues: {
-      email: '',
+      username: '',
       password: '',
     },
 
@@ -33,9 +37,21 @@ function Login(props: PaperProps) {
   });
 
   type FormValues = typeof form.values;
+  const navigate = useNavigate();
 
-  const handleLogin = (values: FormValues) => {
-    
+  const handleFormSubmit = async (formData: FormValues) => {
+    const payload: ILoginInData = {
+      username: formData.username,
+      password: formData.password,
+    };
+
+    await authService
+      .Login(payload)
+      .then(() => {
+        navigate('/');
+        form.reset();
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -45,20 +61,23 @@ function Login(props: PaperProps) {
       </Text>
       <Group grow mb="md" mt="md">
         <GoogleButton radius={10}>Google</GoogleButton>
-        {/* <TwitterButton radius="xl">Twitter</TwitterButton> */}
       </Group>
 
-      <Divider label="Or continue with email" labelPosition="center" my="lg" />
+      <Divider label="Or continue with us" labelPosition="center" my="lg" />
 
-      <form onSubmit={form.onSubmit(() => {})}>
+      <form
+        onSubmit={form.onSubmit(async (v) => {
+          await handleFormSubmit(v);
+        })}
+      >
         <Stack>
           <TextInput
             required
-            label="Email"
-            placeholder="hello@example.com"
-            value={form.values.email}
-            onChange={(event) => form.setFieldValue('email', event.currentTarget.value)}
-            error={form.errors.email}
+            label="Username"
+            placeholder="example"
+            value={form.values.username}
+            onChange={(event) => form.setFieldValue('username', event.currentTarget.value)}
+            error={form.errors.username}
             radius="md"
           />
 

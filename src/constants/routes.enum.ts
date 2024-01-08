@@ -4,4 +4,5 @@ export enum ROUTES {
   HISTORY = '/history',
   LOGIN = '/login',
   REGISTER = '/register',
+  PRESENTATION_GENERATOR = '/presentation-generator',
 }

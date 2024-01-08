@@ -24,6 +24,7 @@
     "@tabler/core": "1.0.0-beta20",
     "@tabler/icons-react": "^2.45.0",
     "axios": "^1.6.4",
+    "framer-motion": "^10.17.9",
     "js-cookie": "^3.0.5",
     "lodash": "^4.17.21",
     "lodash.debounce": "^4.0.8",

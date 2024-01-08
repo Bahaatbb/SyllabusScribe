@@ -18,11 +18,11 @@ const LinkLabel = styled.div`
 `;
 
 interface ConditionalLinkProps extends LinkProps {
-  isActive?: boolean;
+  active?: string;
 }
 
-const dynamicStyle = ({ isActive, ...props }: ConditionalLinkProps) => {
-  if (isActive) {
+const dynamicStyle = ({ active, ...props }: ConditionalLinkProps) => {
+  if (active == "true") {
     return css`
       background-color: #fdfdff; 
       color: #2951dc;

@@ -1,38 +1,91 @@
 // axios
-import axios from "axios";
+import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 // js cookie
-import Cookies from "js-cookie";
+import Cookies from 'js-cookie';
 
 abstract class APIService {
   protected baseURL: string;
   protected headers: any = {};
+  private axiosInstance: AxiosInstance = axios.create();
 
   constructor(_baseURL: string) {
     this.baseURL = _baseURL;
+    this.setupInterceptors();
   }
 
+  private setupInterceptors() {
+    this.axiosInstance.interceptors.request.use(
+      (config) => {
+        const accessToken = this.getAccessToken();
+        if (accessToken) {
+          config.headers.Authorization = `Bearer ${accessToken}`;
+        }
+        return config;
+      },
+      (error) => {
+        return Promise.reject(error);
+      }
+    );
+
+    this.axiosInstance.interceptors.response.use(
+      (response) => response,
+      async (error) => {
+        const originalRequest = error.config;
+
+        // If the error status is 401 and there is no originalRequest._retry flag,
+        // it means the token has expired and we need to refresh it
+        if (error.response.status === 401 && !originalRequest._retry) {
+          originalRequest._retry = true;
+
+          try {
+            const refreshToken = this.getRefreshToken();
+            if (!refreshToken) {
+              return Promise.reject(error);
+            }
+
+            const refreshResponse = await this.axiosInstance.post('/auth/login/refresh', {
+              refresh: refreshToken,
+            });
+            const newAccessToken = refreshResponse.data.access;
+            const newRefreshToken = refreshResponse.data.refresh;
+
+            this.setAccessToken(newAccessToken);
+            this.setRefreshToken(newRefreshToken);
+
+            return this.axiosInstance(originalRequest);
+          } catch (error) {
+            // redirect to login page or handle as needed
+            location.href = '/login';
+            return Promise.reject(error);
+          }
+        }
+
+        return Promise.reject(error);
+      }
+    );
+  }
   setRefreshToken(token: string) {
-    Cookies.set("refreshToken", token);
+    Cookies.set('refreshToken', token);
   }
 
   getRefreshToken() {
-    return Cookies.get("refreshToken");
+    return Cookies.get('refreshToken');
   }
 
   purgeRefreshToken() {
-    Cookies.remove("refreshToken", { path: "/" });
+    Cookies.remove('refreshToken', { path: '/' });
   }
 
   setAccessToken(token: string) {
-    Cookies.set("accessToken", token);
+    Cookies.set('accessToken', token);
   }
 
   getAccessToken() {
-    return Cookies.get("accessToken");
+    return Cookies.get('accessToken');
   }
 
   purgeAccessToken() {
-    Cookies.remove("accessToken", { path: "/" });
+    Cookies.remove('accessToken', { path: '/' });
   }
 
   getHeaders() {
@@ -42,17 +95,16 @@ abstract class APIService {
   }
 
   get(url: string, config = {}): Promise<any> {
-    return axios({
-      method: "get",
+    return this.axiosInstance({
+      method: 'get',
       url: this.baseURL + url,
-      headers: this.getAccessToken() ? this.getHeaders() : {},
       ...config,
     });
   }
 
   post(url: string, data = {}, config = {}): Promise<any> {
-    return axios({
-      method: "post",
+    return this.axiosInstance({
+      method: 'post',
       url: this.baseURL + url,
       data,
       headers: this.getAccessToken() ? this.getHeaders() : {},
@@ -61,8 +113,8 @@ abstract class APIService {
   }
 
   put(url: string, data = {}, config = {}): Promise<any> {
-    return axios({
-      method: "put",
+    return this.axiosInstance({
+      method: 'put',
       url: this.baseURL + url,
       data,
       headers: this.getAccessToken() ? this.getHeaders() : {},
@@ -71,8 +123,8 @@ abstract class APIService {
   }
 
   patch(url: string, data = {}, config = {}): Promise<any> {
-    return axios({
-      method: "patch",
+    return this.axiosInstance({
+      method: 'patch',
       url: this.baseURL + url,
       data,
       headers: this.getAccessToken() ? this.getHeaders() : {},
@@ -81,8 +133,8 @@ abstract class APIService {
   }
 
   delete(url: string, data?: any, config = {}): Promise<any> {
-    return axios({
-      method: "delete",
+    return this.axiosInstance({
+      method: 'delete',
       url: this.baseURL + url,
       data: data,
       headers: this.getAccessToken() ? this.getHeaders() : {},
@@ -91,16 +143,18 @@ abstract class APIService {
   }
 
   mediaUpload(url: string, data = {}, config = {}): Promise<any> {
-    return axios({
-      method: "post",
+    return this.axiosInstance({
+      method: 'post',
       url: this.baseURL + url,
       data,
-      headers: this.getAccessToken() ? { ...this.getHeaders(), "Content-Type": "multipart/form-data" } : {},
+      headers: this.getAccessToken()
+        ? { ...this.getHeaders(), 'Content-Type': 'multipart/form-data' }
+        : {},
       ...config,
     });
   }
 
-  request(config = {}) {
+  request(config: AxiosRequestConfig = {}) {
     return axios(config);
   }
 }
