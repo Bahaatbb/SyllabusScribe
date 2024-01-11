@@ -17,6 +17,7 @@ import { GoogleButton } from './GoogleButton';
 import { Link, redirect, useNavigate } from 'react-router-dom';
 import { ILoginInData } from '@/types/auth';
 import { AuthService } from '@/services/auth.service';
+import { useState } from 'react';
 
 const schema = z.object({
   username: z.string(),
@@ -26,6 +27,7 @@ const schema = z.object({
 const authService = new AuthService();
 
 function Login(props: PaperProps) {
+  const [error, setError] = useState<null | string>(null);
   const form = useForm<{ username: string; password: string }>({
     validate: zodResolver(schema),
     initialValues: {
@@ -34,6 +36,9 @@ function Login(props: PaperProps) {
     },
 
     validateInputOnBlur: true,
+    onValuesChange(values) {
+        setError(null)
+    },
   });
 
   type FormValues = typeof form.values;
@@ -51,7 +56,9 @@ function Login(props: PaperProps) {
         navigate('/');
         form.reset();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setError(err?.detail);
+      });
   };
 
   return (
@@ -71,6 +78,9 @@ function Login(props: PaperProps) {
         })}
       >
         <Stack>
+          {error && <Text size='sm' c='red' ta='center'>
+              {error}
+            </Text>}
           <TextInput
             required
             label="Username"

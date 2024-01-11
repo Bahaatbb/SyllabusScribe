@@ -1,37 +1,32 @@
-import { Container } from '@/components';
-import { Box, NumberInput } from '@mantine/core';
-import { useCounter } from '@mantine/hooks';
-import React from 'react';
-
+import { Container, GeneratePresentationForm } from '@/components';
+import {  Divider, Flex, Text } from '@mantine/core';
+import { motion } from 'framer-motion';
+import YourPresentationts from '@/components/Presentations/YourPresentationts';
 const PresentationGenerator = () => {
-  const [count, handlers] = useCounter(0, { min: 0, max: 10 });
+  const containerVariants = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: { opacity: 1, scale: 1, transition: { duration: 0.5 } },
+  };
 
   return (
-    <Container has_parent>
-      <Box
-        w={'100%'}
-        h={'100%'}
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          border: '1px solid #e1e1e1',
-          radius: '10px'
-        }}
-        p={'lg'}
-      >
-        <Box component="form"
-        >
-          <NumberInput
-            label="Number of Slides"
-            placeholder="Input placeholder"
-            max={10}
-            min={1}
-            defaultValue={1}
-          />
-        </Box>
-      </Box>
-    </Container>
+    <motion.div initial="hidden" animate="visible" variants={containerVariants}>
+      <Container title="Slides Generator" has_parent>
+        <Text my="lg" fw={600}>
+          Create new presentation
+        </Text>
+        <Divider />
+
+        <GeneratePresentationForm />
+        <Flex align={'center'} justify={'space-between'}>
+          <Text my="lg" fw={600}>
+            Your presentations
+          </Text>
+         
+        </Flex>
+        <Divider />
+        <YourPresentationts />
+      </Container>
+    </motion.div>
   );
 };
 

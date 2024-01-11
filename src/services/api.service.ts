@@ -1,4 +1,6 @@
 // axios
+import { isTokenExpired } from '@/helpers/common.helper';
+import { notifications } from '@mantine/notifications';
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 // js cookie
 import Cookies from 'js-cookie';
@@ -39,13 +41,24 @@ abstract class APIService {
 
           try {
             const refreshToken = this.getRefreshToken();
-            if (!refreshToken) {
+            if (!refreshToken || isTokenExpired(refreshToken)) {
+              notifications.show({
+                title: 'Error',
+                message: 'Your session has expired. Please log in again.',
+                color: 'red',
+              });
+
+              window.location.href = '/login';
               return Promise.reject(error);
             }
 
-            const refreshResponse = await this.axiosInstance.post('/auth/login/refresh', {
-              refresh: refreshToken,
-            });
+            const refreshResponse = await this.axiosInstance.post(
+              'http://localhost:8000/api/auth/login/refresh',
+              {
+                refresh: refreshToken,
+              }
+            );
+
             const newAccessToken = refreshResponse.data.access;
             const newRefreshToken = refreshResponse.data.refresh;
 
@@ -53,10 +66,8 @@ abstract class APIService {
             this.setRefreshToken(newRefreshToken);
 
             return this.axiosInstance(originalRequest);
-          } catch (error) {
-            // redirect to login page or handle as needed
-            location.href = '/login';
-            return Promise.reject(error);
+          } catch (refreshError) {
+            return Promise.reject(refreshError);
           }
         }
 
@@ -64,6 +75,7 @@ abstract class APIService {
       }
     );
   }
+
   setRefreshToken(token: string) {
     Cookies.set('refreshToken', token);
   }

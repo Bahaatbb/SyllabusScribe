@@ -14,7 +14,8 @@ const EducationCard = (
   { icon, title, description, link, linkText }: IEducationCardProps,
 ) => {
   return (
-    <Card shadow="sm" padding="lg" radius="md" withBorder>
+    <Card 
+    shadow="sm" padding="lg" radius="md" withBorder>
       <Card.Section withBorder px={'lg'} pt="xs">
         <Flex align={'center'}>
           <Box mr="xs">

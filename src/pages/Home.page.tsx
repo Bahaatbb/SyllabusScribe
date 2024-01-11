@@ -9,7 +9,7 @@ const user = new AuthService();
 export function HomePage() {
   console.log(user.getAccessToken());
   return (
-    <Container>
+    <Container title="Home Page">
         hello
     </Container>
   );

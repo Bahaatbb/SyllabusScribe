@@ -1,25 +1,21 @@
 import { Container, EducationCard, Loader } from '@/components';
 import { ROUTES } from '@/constants/routes.enum';
-import { Badge, Box, Button, Card, Flex, Grid, Group, Image, Spoiler, Text } from '@mantine/core';
+import { Grid } from '@mantine/core';
 import {
   IconAffiliate,
-  IconArrowBadgeRight,
-  IconArrowBearRight2,
-  IconArrowRight,
   IconBooks,
+  IconCheckupList,
   IconFileAnalytics,
   IconFileTypePpt,
+  IconNotes,
   IconPresentation,
-  IconTextCaption,
 } from '@tabler/icons-react';
 import { motion } from 'framer-motion';
-import React from 'react';
-import { Link, Outlet } from 'react-router-dom';
 
 const EducationalGarage = () => {
   return (
     <motion.main>
-      <Container>
+      <Container title="Educational Garage">
         <Grid grow>
           <Grid.Col maw={450} span={4}>
             <EducationCard
@@ -66,6 +62,25 @@ const EducationalGarage = () => {
               icon={<IconFileAnalytics width={30} height={30} color="#5085c6" />}
               link="/presentation-generator"
               linkText="Generate Your Presentation"
+            />
+          </Grid.Col>
+
+          <Grid.Col maw={450} span={4}>
+            <EducationCard
+              title="Quiz Builder"
+              description="This tool generates you slides that help you empower your work. With a tool like this one you would move fast with your teaching process."
+              icon={<IconNotes width={30} height={30} color="#5085c6" />}
+              link="/presentation-generator"
+              linkText="Generate Your Quiz"
+            />
+          </Grid.Col>
+          <Grid.Col maw={450} span={4}>
+            <EducationCard
+              title="Student performance evaluation"
+              description="This tool generates you slides that help you empower your work. With a tool like this one you would move fast with your teaching process."
+              icon={<IconCheckupList width={30} height={30} color="#5085c6" />}
+              link="/presentation-generator"
+              linkText="See how your students perofrm"
             />
           </Grid.Col>
         </Grid>

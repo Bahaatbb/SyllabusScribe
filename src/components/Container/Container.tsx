@@ -1,8 +1,7 @@
-import { AppShell, Burger, Flex, Box, Image } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
 import { ReactNode } from 'react';
-import { NavMenu } from '../Navigation/NavMenu';
-import { rem } from '@mantine/core';
+import { AppShell, Burger, Flex, Box, Image, Text } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import { useNavigate } from 'react-router-dom';
 import {
   IconListDetails,
   IconBook,
@@ -11,16 +10,23 @@ import {
   IconLogout,
   IconArrowLeft,
 } from '@tabler/icons-react';
-import { ROUTES } from '@/constants/routes.enum';
-import { useNavigate } from 'react-router-dom';
+import { rem } from '@mantine/core';
 
-export function Container({ children, has_parent }: { children: ReactNode; has_parent?: boolean }) {
+// src
+import { NavMenu } from '../Navigation/NavMenu';
+import { ROUTES } from '@/constants/routes.enum';
+import { IS_MOBILE } from '@/helpers/common.helper';
+
+export function Container({
+  children,
+  has_parent,
+  title,
+}: {
+  children: ReactNode;
+  has_parent?: boolean;
+  title: string;
+}) {
   const [opened, { toggle, close }] = useDisclosure();
-  /**
-   *  TODO: MOVE THIS TO A HELPER
-   **/
-  const userAgent = navigator.userAgent;
-  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
   const menuItems = [
     {
       icon: <IconBook style={{ width: rem(30), height: rem(40) }} stroke={1.5} />,
@@ -55,7 +61,7 @@ export function Container({ children, has_parent }: { children: ReactNode; has_p
     >
       <AppShell.Header px={'xl'} py="sm">
         <Flex align={'center'} justify={'space-between'}>
-          <Flex align={'center'} justify={'space-between'} w={280}>
+          <Flex align={'center'} justify={'space-between'} w={460}>
             <Flex align={'center'} justify={'space-between'} gap={'md'}>
               <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
               <Image
@@ -65,25 +71,39 @@ export function Container({ children, has_parent }: { children: ReactNode; has_p
                 height={55}
               />
             </Flex>
-            {has_parent && (
-              <Box
-                component="button"
-                onClick={() => navigate(-1)}
-                bg="#f4f4f4"
-                px={6}
-                pt={6}
-                style={{
-                  border: 'none',
-                  borderRadius: '4px',
-                  boxShadow: '0 0 4px rgb(234, 234, 234)',
-                  cursor: 'pointer',
-                }}
-              >
-                <IconArrowLeft width={'24px'} height={'24px'} />
-              </Box>
-            )}
+            <Flex gap={15} align={'center'} justify={'space-between'}>
+              {has_parent && (
+                <Box
+                  component="button"
+                  onClick={() => navigate(-1)}
+                  bg="#f4f4f4"
+                  px={6}
+                  pt={6}
+                  style={{
+                    border: 'none',
+                    borderRadius: '4px',
+                    boxShadow: '0 0 4px rgb(234, 234, 234)',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <IconArrowLeft width={'24px'} height={'24px'} />
+                </Box>
+              )}
+              {title && !IS_MOBILE && (
+                <Text
+                  style={{
+                    fontWeight: 700,
+                    fontSize: '20px',
+                    lineHeight: '24px',
+                  }}
+                >
+                  {title}
+                </Text>
+              )}
+            </Flex>
           </Flex>
-          {!isMobile && (
+
+          {!IS_MOBILE && (
             <Flex align={'center'} gap={'xl'} pr={'xl'}>
               <IconUser />
               <IconLogout />
