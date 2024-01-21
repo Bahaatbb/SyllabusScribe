@@ -55,15 +55,6 @@ const EducationalGarage = () => {
               linkText="Generate Your Presentation"
             />
           </Grid.Col>
-          <Grid.Col maw={450} span={4}>
-            <EducationCard
-              title="Unit planner"
-              description="This tool generates you slides that help you empower your work. With a tool like this one you would move fast with your teaching process."
-              icon={<IconFileAnalytics width={30} height={30} color="#5085c6" />}
-              link="/presentation-generator"
-              linkText="Generate Your Presentation"
-            />
-          </Grid.Col>
 
           <Grid.Col maw={450} span={4}>
             <EducationCard

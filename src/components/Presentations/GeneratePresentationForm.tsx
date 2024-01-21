@@ -63,11 +63,7 @@ const GeneratePresentationForm = () => {
         message: 'Presentation generated successfully',
         color: 'green',
       });
-      /**
-       * TODO: Fix when the response returns the intended data filename:"la;ds" 
-       **/
-      console.log(data)
-      window.open(`http://localhost:8000/media/${data.model_output.file_path}`);
+      // window.open(`http://localhost:8000/media/${data.model_output.file_path}`);
       form.reset();
     }
   }, [error, isSuccess]);

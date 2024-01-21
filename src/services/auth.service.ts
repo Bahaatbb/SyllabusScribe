@@ -20,8 +20,8 @@ export class AuthService extends APIService {
       });
   }
 
-  async emailSignUp(data: { email: string; password: string }) {
-    return this.post('/api/auth/login', data, { headers: {} })
+  async Register(data: { email: string; password: string }) {
+    return this.post('/api/auth/signup/', data, { headers: {} })
       .then((response) => {
         return response?.data;
       })

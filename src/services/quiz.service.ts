@@ -3,13 +3,13 @@ import APIService from '@/services/api.service';
 import { API_BASE_URL } from '@/helpers/common.helper';
 import { IPresnetationData } from '@/types/app';
 
-export class PresentationService extends APIService {
+export class QuizService extends APIService {
   constructor() {
     super(API_BASE_URL);
   }
 
-  async getPresentations(): Promise<any> {
-    return this.get('/api/user/lesson-presentations')
+  async getQuizzes(): Promise<any> {
+    return this.get('/api/user/lesson-quizzes')
       .then((response) => {
         return response?.data;
       })
@@ -18,8 +18,8 @@ export class PresentationService extends APIService {
       });
   }
 
-  async createPresentation(data: IPresnetationData): Promise<any> {
-    return this.post('/api/large-language-model/generate-presentation/', data)
+  async createQuizze(data: IPresnetationData): Promise<any> {
+    return this.post('/api/large-language-model/generate-quizzes/', data)
       .then((response) => {
         return response?.data;
       })

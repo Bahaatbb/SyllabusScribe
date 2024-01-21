@@ -10,14 +10,16 @@ import {
   Divider,
   Anchor,
   Stack,
+  rem,
 } from '@mantine/core';
 import { z } from 'zod';
 
 import { GoogleButton } from './GoogleButton';
-import { Link, redirect, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ILoginInData } from '@/types/auth';
 import { AuthService } from '@/services/auth.service';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { motion, useAnimation } from 'framer-motion';
 
 const schema = z.object({
   username: z.string(),
@@ -37,7 +39,7 @@ function Login(props: PaperProps) {
 
     validateInputOnBlur: true,
     onValuesChange(values) {
-        setError(null)
+      setError(null);
     },
   });
 
@@ -52,7 +54,7 @@ function Login(props: PaperProps) {
 
     await authService
       .Login(payload)
-      .then(() => {
+      .then((res) => {
         navigate('/');
         form.reset();
       })
@@ -61,57 +63,81 @@ function Login(props: PaperProps) {
       });
   };
 
+  const controls = useAnimation();
+
+  useEffect(() => {
+    // Animate the logo initially
+    controls.start({ opacity: 1, y: 0 });
+
+    // Animate the expansion of the login form
+    controls.start({
+      height: 'auto',
+      transition: { duration: 0.5, ease: 'easeInOut' },
+    });
+  }, []);
+
   return (
-    <Paper radius="md" p="xl" withBorder {...props} w={'500px'} shadow="0 0 4px #bdbdbd">
-      <Text size="xl" fw={500} ta={'center'}>
-        Login
-      </Text>
-      <Group grow mb="md" mt="md">
-        <GoogleButton radius={10}>Google</GoogleButton>
-      </Group>
-
-      <Divider label="Or continue with us" labelPosition="center" my="lg" />
-
-      <form
-        onSubmit={form.onSubmit(async (v) => {
-          await handleFormSubmit(v);
-        })}
-      >
-        <Stack>
-          {error && <Text size='sm' c='red' ta='center'>
-              {error}
-            </Text>}
-          <TextInput
-            required
-            label="Username"
-            placeholder="example"
-            value={form.values.username}
-            onChange={(event) => form.setFieldValue('username', event.currentTarget.value)}
-            error={form.errors.username}
-            radius="md"
-          />
-
-          <PasswordInput
-            required
-            label="Password"
-            placeholder="password"
-            value={form.values.password}
-            onChange={(event) => form.setFieldValue('password', event.currentTarget.value)}
-            error={form.errors.password}
-            radius="md"
-          />
-        </Stack>
-
-        <Group justify="space-between" mt="xl">
-          <Anchor component={Link} type="button" c="dimmed" to={'/register'} size="xs">
-            Don't have an account? Register
-          </Anchor>
-          <Button type="submit" radius="xl" color="#2951dc">
-            Login
-          </Button>
+    <motion.div
+      initial={{ opacity: 0, y: -50 }} // Initial logo position
+      animate={controls}
+      style={{
+        width: '100%',
+        maxWidth: rem(500),
+      }}
+    >
+      <Paper radius="md" p="xl" withBorder {...props} w="100%" maw={500} shadow="0 0 4px #bdbdbd">
+        <Text size="xl" fw={500} ta={'center'}>
+          Login
+        </Text>
+        <Group grow mb="md" mt="md">
+          <GoogleButton radius={10}>Google</GoogleButton>
         </Group>
-      </form>
-    </Paper>
+
+        <Divider label="Or continue with us" labelPosition="center" my="lg" />
+
+        <form
+          onSubmit={form.onSubmit(async (v) => {
+            await handleFormSubmit(v);
+          })}
+        >
+          <Stack>
+            {error && (
+              <Text size="sm" c="red" ta="center">
+                {error}
+              </Text>
+            )}
+            <TextInput
+              required
+              label="Username"
+              placeholder="example"
+              value={form.values.username}
+              onChange={(event) => form.setFieldValue('username', event.currentTarget.value)}
+              error={form.errors.username}
+              radius="md"
+            />
+
+            <PasswordInput
+              required
+              label="Password"
+              placeholder="password"
+              value={form.values.password}
+              onChange={(event) => form.setFieldValue('password', event.currentTarget.value)}
+              error={form.errors.password}
+              radius="md"
+            />
+          </Stack>
+
+          <Group justify="space-between" mt="xl">
+            <Anchor component={Link} type="button" c="dimmed" to={'/register'} size="xs">
+              Don't have an account? Register
+            </Anchor>
+            <Button type="submit" radius="xl" color="#2951dc">
+              Login
+            </Button>
+          </Group>
+        </form>
+      </Paper>
+    </motion.div>
   );
 }
 

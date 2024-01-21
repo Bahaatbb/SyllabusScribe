@@ -1,7 +1,7 @@
 import { Container, GeneratePresentationForm } from '@/components';
 import {  Divider, Flex, Text } from '@mantine/core';
 import { motion } from 'framer-motion';
-import YourPresentationts from '@/components/Presentations/YourPresentationts';
+import {YourPresentationts} from '@/components';
 const PresentationGenerator = () => {
   const containerVariants = {
     hidden: { opacity: 0, scale: 0.8 },

@@ -40,15 +40,16 @@ abstract class APIService {
           originalRequest._retry = true;
 
           try {
-            const refreshToken = this.getRefreshToken();
+            const refreshToken = this.getRefreshToken(); //path not login
             if (!refreshToken || isTokenExpired(refreshToken)) {
-              notifications.show({
-                title: 'Error',
-                message: 'Your session has expired. Please log in again.',
-                color: 'red',
-              });
-
-              window.location.href = '/login';
+              if (!window.location.pathname.includes('/login') && !window.location.pathname.includes('/register')) {
+                notifications.show({
+                  title: 'Error',
+                  message: 'Your session has expired. Please log in again.',
+                  color: 'red',
+                });
+                window.location.href = '/login';
+              }
               return Promise.reject(error);
             }
 

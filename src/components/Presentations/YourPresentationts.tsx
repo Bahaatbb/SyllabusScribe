@@ -1,155 +1,48 @@
-import { Box, Card, Grid, rem, Text } from '@mantine/core';
-import { IconDownload, IconFileTypePpt, IconPresentation } from '@tabler/icons-react';
-import React from 'react';
+import { Box, Grid } from '@mantine/core';
+import { PresentationCard } from './PresentationCard';
+import { Loader } from '../Loader';
+import { useQuery } from 'react-query';
+import { PresentationService } from '@/services/presentation.service';
 
+const presentationservice = new PresentationService();
+const generatePresentation = () => {
+  return presentationservice.getPresentations();
+};
 const YourPresentationts = () => {
+  const { data, isLoading, error } = useQuery<
+    { topic: string; id: number; generated_file: string; grade_level: string }[]
+  >({
+    queryKey: 'presentations',
+    queryFn: generatePresentation,
+  });
   return (
     <Box
       style={{
-        padding: '24px',
+        padding: '24px 0px',
       }}
     >
-      <Grid grow>
-        <Grid.Col maw={rem(300)} span={3}>
-          <Card
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}
-            shadow="sm"
-            withBorder={true}
-            p="lg"
-            radius="md"
-          >
-            <IconPresentation color="#f3b200" size={30} />
-            <Text fw={500} ta={'center'} fz={'sm'}>
-              Compiler Design
-            </Text>
-            <IconDownload
-              style={{
-                cursor: 'pointer',
-              }}
-              size={30}
-              color="#2951dc"
-            />
-          </Card>
-        </Grid.Col>
-
-        <Grid.Col maw={rem(300)} span={3}>
-          <Card
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}
-            shadow="sm"
-            withBorder={true}
-            p="lg"
-            radius="md"
-          >
-            <IconPresentation color="#f3b200" size={30} />
-            <Text fw={500} ta={'center'} fz={'sm'}>
-              Neural Network
-            </Text>
-            <IconDownload
-              style={{
-                cursor: 'pointer',
-              }}
-              size={30}
-              color="#2951dc"
-            />
-          </Card>
-        </Grid.Col>
-
-
-        <Grid.Col maw={rem(300)} span={3}>
-          <Card
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}
-            shadow="sm"
-            withBorder={true}
-            p="lg"
-            radius="md"
-          >
-            <IconPresentation color="#f3b200" size={30} />
-            <Text fw={500} ta={'center'} fz={'sm'}>
-              Intro to calculus
-            </Text>
-            <IconDownload
-              style={{
-                cursor: 'pointer',
-              }}
-              size={30}
-              color="#2951dc"
-            />
-          </Card>
-        </Grid.Col>
-
-
-        <Grid.Col maw={rem(300)} span={3}>
-          <Card
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}
-            shadow="sm"
-            withBorder={true}
-            p="lg"
-            radius="md"
-          >
-            <IconPresentation color="#f3b200" size={30} />
-            <Text fw={500} ta={'center'} fz={'sm'}>
-              Data Science
-            </Text>
-            <IconDownload
-              style={{
-                cursor: 'pointer',
-              }}
-              size={30}
-              color="#2951dc"
-            />
-          </Card>
-        </Grid.Col>
-
-        <Grid.Col maw={rem(300)} span={3}>
-          <Card
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}
-            shadow="sm"
-            withBorder={true}
-            p="lg"
-            radius="md"
-          >
-            <IconPresentation color="#f3b200" size={30} />
-            <Text fw={500} ta={'center'} fz={'sm'}>
-              EEC
-            </Text>
-            <IconDownload
-              style={{
-                cursor: 'pointer',
-              }}
-              size={30}
-              color="#2951dc"
-            />
-          </Card>
-        </Grid.Col>
-
-      </Grid>
+      {isLoading ? (
+        <Box
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Loader />
+        </Box>
+      ) : (
+        <Grid grow>
+          {data &&
+            data.map((item) => (
+              <Grid.Col maw={'100%'} span={3}>
+                <PresentationCard key={item.id} text={item.topic} link={item.generated_file} />
+              </Grid.Col>
+            ))}
+        </Grid>
+      )}
     </Box>
   );
 };
 
-export default YourPresentationts;
+export { YourPresentationts };

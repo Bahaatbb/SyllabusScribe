@@ -14,7 +14,7 @@ export const useGeneratePresentation = () => {
 
   const mutation = useMutation(generatePresentation, {
     onSuccess: () => {
-      queryClient.invalidateQueries('generate-presentation');
+      queryClient.invalidateQueries('presentations');
     },
   });
   return {
@@ -23,5 +23,6 @@ export const useGeneratePresentation = () => {
     error: mutation.error,
     loading: mutation.isLoading,
     isSuccess: mutation.isSuccess,
+    reset: mutation.reset,
   };
 };

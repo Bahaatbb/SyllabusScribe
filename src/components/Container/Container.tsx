@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { AppShell, Burger, Flex, Box, Image, Text } from '@mantine/core';
+import { AppShell, Burger, Flex, Box, Image, Text, Divider } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -53,64 +53,73 @@ export function Container({
       transitionTimingFunction="ease"
       header={{ height: 80 }}
       withBorder={true}
-      /**
-       *  TODO: Change desktop:false when we apply authentication
-       **/
       navbar={{ width: 300, breakpoint: 'sm', collapsed: { desktop: false, mobile: !opened } }}
       padding="md"
     >
-      <AppShell.Header px={'xl'} py="sm">
-        <Flex align={'center'} justify={'space-between'}>
-          <Flex align={'center'} justify={'space-between'} w={460}>
-            <Flex align={'center'} justify={'space-between'} gap={'md'}>
-              <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-              <Image
-                src={'../../assets/logo-2.svg'}
-                alt="Syllabus scribe"
-                fit="contain"
-                height={55}
-              />
+      <AppShell.Header
+        style={{
+          borderBottom: '3px solid #5479ff',
+          boxShadow: '0px 0px 3px #bababa',
+          borderRadius: '0px 0px 8px 8px',
+          zIndex: 102,
+        }}
+        px={'xl'}
+        py="sm"
+      >
+        <Flex direction={'column'}>
+          <Flex align={'center'} justify={'space-between'}>
+            <Flex align={'center'} justify={'space-between'} gap={80}>
+              <Flex align={'center'} justify={'space-between'}>
+                <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
+                <Image
+                  src={'../../assets/logo-2.svg'}
+                  alt="Syllabus scribe"
+                  fit="contain"
+                  height={55}
+                />
+              </Flex>
+              <Flex gap={15} align={'center'} justify={'space-between'}>
+                {has_parent && (
+                  <Box
+                    component="button"
+                    onClick={() => navigate(-1)}
+                    bg="#f4f4f4"
+                    px={6}
+                    pt={6}
+                    style={{
+                      border: 'none',
+                      borderRadius: '4px',
+                      boxShadow: '0 0 4px rgb(234, 234, 234)',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <IconArrowLeft width={'24px'} height={'24px'} />
+                  </Box>
+                )}
+                {title && !IS_MOBILE && (
+                  <Text
+                    style={{
+                      fontWeight: 700,
+                      fontSize: '20px',
+                      lineHeight: '24px',
+                    }}
+                  >
+                    {title}
+                  </Text>
+                )}
+              </Flex>
             </Flex>
-            <Flex gap={15} align={'center'} justify={'space-between'}>
-              {has_parent && (
-                <Box
-                  component="button"
-                  onClick={() => navigate(-1)}
-                  bg="#f4f4f4"
-                  px={6}
-                  pt={6}
-                  style={{
-                    border: 'none',
-                    borderRadius: '4px',
-                    boxShadow: '0 0 4px rgb(234, 234, 234)',
-                    cursor: 'pointer',
-                  }}
-                >
-                  <IconArrowLeft width={'24px'} height={'24px'} />
-                </Box>
-              )}
-              {title && !IS_MOBILE && (
-                <Text
-                  style={{
-                    fontWeight: 700,
-                    fontSize: '20px',
-                    lineHeight: '24px',
-                  }}
-                >
-                  {title}
-                </Text>
-              )}
-            </Flex>
-          </Flex>
 
-          {!IS_MOBILE && (
-            <Flex align={'center'} gap={'xl'} pr={'xl'}>
-              <IconUser />
-              <IconLogout />
-            </Flex>
-          )}
+            {!IS_MOBILE && (
+              <Flex align={'center'} gap={'xl'} pr={'xl'}>
+                <IconUser />
+                <IconLogout />
+              </Flex>
+            )}
+          </Flex>
         </Flex>
       </AppShell.Header>
+
       <AppShell.Navbar p="md" display={'flex'}>
         <Box>
           <NavMenu menuItems={menuItems} />
