@@ -6,7 +6,11 @@ import { Loader } from './Loader';
 import { GeneratePresentationForm, PresentationCard, YourPresentationts } from './Presentations';
 import { LoadingForm } from './LoadingForm';
 import { LessonContexts, LessonPlans, Presentations, LessonQuizzes, LessonWorksheets } from './History';
-
+import { Plans,GeneratePlanForm } from './Plans';
+import { Contexts } from './Contexts';
+import { Quizzes, GenerateQuizForm } from './Quizzes';
+import { Worksheets } from './Worksheets';
+import { StudentPerformance } from './StudentPerformance';
 export {
   Container,
   NavMenu,
@@ -22,5 +26,12 @@ export {
   LessonQuizzes,
   LessonWorksheets,
   PresentationCard,
-  YourPresentationts
+  YourPresentationts,
+  Plans,
+  GeneratePlanForm,
+  Contexts,
+  Quizzes,
+  Worksheets,
+  StudentPerformance,
+  GenerateQuizForm
 };

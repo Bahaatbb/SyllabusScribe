@@ -19,7 +19,7 @@ export class PlanService extends APIService {
   }
 
   async createPlan(data: IPresnetationData): Promise<any> {
-    return this.post('/api/large-language-model/generate-Plan/', data)
+    return this.post('/api/large-language-model/generate-lesson-plan/', data)
       .then((response) => {
         return response?.data;
       })

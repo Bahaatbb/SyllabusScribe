@@ -1,15 +1,17 @@
-import { Box, Button, Card, Divider, Flex, Group, Text, rem } from '@mantine/core';
-import { IconArrowBadgeRightFilled, IconSchool } from '@tabler/icons-react';
+import { Badge, Box, Button, Card, Divider, Flex, Group, Spoiler, Text, rem } from '@mantine/core';
+import { IconArrowBadgeRightFilled, IconEye, IconSchool } from '@tabler/icons-react';
+import React from 'react';
 
-export const QuizzesCard = ({
+export const LessonCard = ({
+  content,
   topic,
   grade_level,
-  quiz_qas,
+  id,
 }: {
   id: number;
+  content: string;
   topic: string;
   grade_level: string;
-  quiz_qas: { id: number; question: string; answer: string }[];
 }) => {
   return (
     <Card
@@ -33,7 +35,6 @@ export const QuizzesCard = ({
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
-                
               }}
             >
               {topic}
@@ -54,39 +55,20 @@ export const QuizzesCard = ({
         </Flex>
       </Card.Section>
       <Divider />
-      <Card.Section
-        style={{
-          display: 'block',
-          maxWidth: rem(600),
-          overflow: 'hidden'
-        }}
-        p="lg"
-      >
-        <Group gap={10}>
-          <Text fw={600}>Question:</Text>
-          <Box
-            style={{
-              boxSizing: 'border-box',
-              maxHeight: rem(20),
-              width:'100%',
-              overflow: 'hidden',
-              textOverflow: 'clip',
-            }}
-          >
-            {quiz_qas[0].question.split('\n').map((line, index) => (
-              <Text key={index}>{line}</Text>
-            ))}
-          </Box>
-        </Group>
-        <Divider mt="xs" w={'80%'} />
-        <Group mt="sm" gap={10}>
-          <Text fw={600}>Answers:</Text>
-          <Box mah={rem(55)} style={{overflow: 'hidden'}}>
-            {quiz_qas[0].answer.split('\n').map((line, index) => (
-              <Text key={index}>{line}</Text>
-            ))}
-          </Box>
-        </Group>
+      <Card.Section p="lg">
+        <Text
+          fz="sm"
+          style={{
+            display: 'block',
+            maxHeight: rem(200),
+            width: rem(600),
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'wrap',
+          }}
+        >
+          {content}
+        </Text>
       </Card.Section>
       <Button
         rightSection={<IconArrowBadgeRightFilled style={{ color: '#f0b206' }} />}

@@ -1,15 +1,15 @@
 // services
 import APIService from '@/services/api.service';
 import { API_BASE_URL } from '@/helpers/common.helper';
-import { IQuizData } from '@/types/app';
+import { IPresnetationData } from '@/types/app';
 
-export class QuizService extends APIService {
+export class UnitService extends APIService {
   constructor() {
     super(API_BASE_URL);
   }
 
-  async getQuizzes(): Promise<any> {
-    return this.get('/api/user/lesson-quizzes')
+  async getUnits(): Promise<any> {
+    return this.get('/api/user/lesson-units')
       .then((response) => {
         return response?.data;
       })
@@ -18,8 +18,8 @@ export class QuizService extends APIService {
       });
   }
 
-  async createQuiz(data: IQuizData): Promise<any> {
-    return this.post('/api/large-language-model/generate-quiz/', data)
+  async createUnit(data: IPresnetationData): Promise<any> {
+    return this.post('/api/large-language-model/generate-unit/', data)
       .then((response) => {
         return response?.data;
       })

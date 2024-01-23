@@ -22,8 +22,8 @@ const EducationalGarage = () => {
               title="Lesson Planner"
               description="This tool generates you slides that help you empower your work. With a tool like this one you would move fast with your teaching process."
               icon={<IconBooks width={30} height={30} color="#5085c6" />}
-              link="/lesson-planner"
-              linkText="Generate Your Lesson"
+              link={ROUTES.EDUCATIONAL_GARAGE + ROUTES.LESSON_PLANNER}
+              linkText="Plan Your Lesson"
             />
           </Grid.Col>
           <Grid.Col maw={450} span={4}>
@@ -41,8 +41,8 @@ const EducationalGarage = () => {
               title="Context Builder"
               description="This tool generates you slides that help you empower your work. With a tool like this one you would move fast with your teaching process."
               icon={<IconAffiliate width={30} height={30} color="#5085c6" />}
-              link="/presentation-generator"
-              linkText="Generate Your Context"
+              link={ROUTES.EDUCATIONAL_GARAGE + ROUTES.CONTEXT_BUILDER}
+              linkText={'Build Your Context'}
             />
           </Grid.Col>
 
@@ -51,18 +51,17 @@ const EducationalGarage = () => {
               title="Worksheets"
               description="This tool generates you slides that help you empower your work. With a tool like this one you would move fast with your teaching process."
               icon={<IconFileTypePpt width={30} height={30} color="#5085c6" />}
-              link="/presentation-generator"
-              linkText="Generate Your Presentation"
+              link={ROUTES.EDUCATIONAL_GARAGE + ROUTES.WORKSHEETS}
+              linkText="Create Your Worksheet"
             />
           </Grid.Col>
-
           <Grid.Col maw={450} span={4}>
             <EducationCard
               title="Quiz Builder"
               description="This tool generates you slides that help you empower your work. With a tool like this one you would move fast with your teaching process."
               icon={<IconNotes width={30} height={30} color="#5085c6" />}
-              link="/presentation-generator"
-              linkText="Generate Your Quiz"
+              link={ROUTES.EDUCATIONAL_GARAGE + ROUTES.QUIZ_BUILDER}
+              linkText="Build Your Quiz"
             />
           </Grid.Col>
           <Grid.Col maw={450} span={4}>
@@ -70,7 +69,7 @@ const EducationalGarage = () => {
               title="Student performance evaluation"
               description="This tool generates you slides that help you empower your work. With a tool like this one you would move fast with your teaching process."
               icon={<IconCheckupList width={30} height={30} color="#5085c6" />}
-              link="/presentation-generator"
+              link={ROUTES.EDUCATIONAL_GARAGE + ROUTES.STUDENT_PERFORMANCE}
               linkText="See how your students perofrm"
             />
           </Grid.Col>

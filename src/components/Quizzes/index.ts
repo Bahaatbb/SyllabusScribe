@@ -1,2 +1,3 @@
 import { Quizzes } from './Quizzes';
-export {Quizzes}
+import { GenerateQuizForm } from './GenerateQuizForm';
+export { Quizzes, GenerateQuizForm };

@@ -31,7 +31,7 @@ export const LessonCard = ({
               component="span"
               style={{
                 display: 'block',
-                maxWidth: rem(500),
+                maxWidth: rem(300),
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
@@ -61,7 +61,7 @@ export const LessonCard = ({
           style={{
             display: 'block',
             maxHeight: rem(200),
-            width: rem(600),
+            minWidth: rem(300),
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             whiteSpace: 'wrap',

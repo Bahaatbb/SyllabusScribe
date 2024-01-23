@@ -3,7 +3,7 @@ import { SyllabusScriberForm } from '@/components/SyllabusScriber/SyllabusScribe
 
 export function HomePage() {
   return (
-    <Container title="Home Page">
+    <Container title="Syllabus Scriber">
         <SyllabusScriberForm />
     </Container>
   );
