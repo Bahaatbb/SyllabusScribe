@@ -41,8 +41,15 @@ abstract class APIService {
 
           try {
             const refreshToken = this.getRefreshToken(); //path not login
-            if (!refreshToken || isTokenExpired(refreshToken)) {
-              if (!window.location.pathname.includes('/login') && !window.location.pathname.includes('/register')) {
+            if (
+              !refreshToken ||
+              error?.response?.data?.detail == 'Token is blacklisted' ||
+              isTokenExpired(refreshToken)
+            ) {
+              if (
+                !window.location.pathname.includes('/login') &&
+                !window.location.pathname.includes('/register')
+              ) {
                 notifications.show({
                   title: 'Error',
                   message: 'Your session has expired. Please log in again.',

@@ -41,27 +41,25 @@ const GenerateQuizForm = () => {
       loading: true,
     });
 
-    createQuiz(values);
+    createQuiz(values,{
+      onSuccess(data, variables, context) {
+        notifications.show({
+          title: 'Success',
+          message: 'Quiz was generated successfully',
+          color: 'green',
+        });
+        form.reset();
+      },
+      onError(error, variables, context) {
+        console.log(error)
+        notifications.show({
+          title: 'Error',
+          message: 'Failed to generate Quiz',
+          color: 'red',
+        });
+      },
+    });
   };
-
-  useEffect(() => {
-    if (error) {
-      notifications.show({
-        title: 'Error',
-        message: 'Failed to generate Quiz',
-        color: 'red',
-      });
-    }
-    // prevent the form from submitting
-    if (isSuccess) {
-      notifications.show({
-        title: 'Success',
-        message: 'Quiz was generated successfully',
-        color: 'green',
-      });
-      form.reset();
-    }
-  }, [error, isSuccess]);
 
   return (
     <motion.div

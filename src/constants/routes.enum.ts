@@ -10,5 +10,6 @@ export enum ROUTES {
   QUIZ_BUILDER = '/quiz-builder',
   UNIT_PLANNER = '/unit-planner',
   WORKSHEETS = '/worksheets',
-  STUDENT_PERFORMANCE = 'student-performance'
+  STUDENT_PERFORMANCE = '/student-performance',
+  PROFILE = '/profile',
 }

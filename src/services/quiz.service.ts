@@ -18,6 +18,16 @@ export class QuizService extends APIService {
       });
   }
 
+  async getOneQuiz(id: string): Promise<any> {
+    return this.get(`/api/lesson-quiz/${id}`)
+      .then((response) => {
+        return response?.data;
+      })
+      .catch((error) => {
+        throw error?.response?.data;
+      });
+  }
+
   async createQuiz(data: IQuizData): Promise<any> {
     return this.post('/api/large-language-model/generate-quiz/', data)
       .then((response) => {

@@ -18,7 +18,7 @@ import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { IconGripVertical, IconFileTypeCsv, IconTrash } from '@tabler/icons-react';
 import { z } from 'zod';
 import { SPMService } from '@/services/spm.service';
-import { Axios, AxiosResponse } from 'axios';
+import { parse } from 'papaparse'; 
 import { useState } from 'react';
 
 const listSchema = z.object({
@@ -183,56 +183,47 @@ function StudentPerformanceForm() {
   ));
 
   const handleChange = async (file: File | null) => {
-    const reader = new FileReader();
-
-    if (!file) return;
-    reader.onload = (event) => {
-      if (!event.target) {
-        return;
-      }
-    };
+    if (!file) {
+      setFileError(true);
+      return;
+    }
     if (file.name.split('.').pop() !== 'csv') {
       setFileError(true);
       return;
     } else {
       setFileError(false);
     }
-    const text = await file.text();
-    const contents = text
-      .split('\n')
-      .slice(1)
-      .map((row) => {
-        const [
-          hours_studied,
-          previous_score,
-          extracurricular_activities,
-          sleep_hours,
-          sample_question_papers_practiced,
-        ] = row.split(',');
-        return {
-          hours_studied: parseInt(hours_studied),
-          previous_score: parseInt(previous_score),
-          extracurricular_activities: extracurricular_activities + '',
-          sleep_hours: parseInt(sleep_hours),
-          sample_question_papers_practiced: parseInt(sample_question_papers_practiced),
-          status: 'idle',
-          error: {},
-          result: '',
-        };
-      }) as {
-      hours_studied: number;
-      previous_score: number;
-      extracurricular_activities: string;
-      sleep_hours: number;
-      sample_question_papers_practiced: number;
-      status: 'idle' | 'pending' | 'resolved' | 'rejected';
-      error: {};
-      result: '';
-    }[];
-    form.setFieldValue('students', [...form.values.students, ...contents]);
+  
+    // Use papaparse to handle CSV parsing
+    parse(file, {
+      complete: (results) => {
+        const contents = results.data.map((row: any) => {
+          console.log(row)
+          const {
+            hours_studied,
+            previous_score,
+            extracurricular_activities,
+            sleep_hours,
+            sample_question_papers_practiced,
+           } = row;
+          return {
+            hours_studied: parseInt(hours_studied),
+            previous_score: parseInt(previous_score),
+            extracurricular_activities: extracurricular_activities.trim().toLowerCase() === 'yes' ? 'Yes' : 'No',
+            sleep_hours: parseInt(sleep_hours),
+            sample_question_papers_practiced: parseInt(sample_question_papers_practiced),
+            status: 'idle',
+            error: {},
+            result: '',
+          } as typeof form.values.students[number];
+        });
+        form.setFieldValue('students', [...form.values.students, ...contents]);
+      },
+      header: true,
+    });
   };
 
-  const handleSubmit = (values: typeof form.values) => {
+  const handleSubmit = async (values: typeof form.values) => {
     let payload: {
       hours_studied: number;
       previous_score: number;
@@ -269,26 +260,27 @@ function StudentPerformanceForm() {
         })
       )
     );
-
-    requests.forEach((request, index) => {
+    for (let index = 0; index < requests.length; index++) {
       form.setFieldValue(`students.${payload[index].index}.status`, 'pending');
-      request
-        .then((res: { status: any; model_output: { performance_index: number } }) => {
-          if (res) {
-            form.setFieldValue(`students.${payload[index].index}.status`, 'resolved');
-            form.setFieldValue(
-              `students.${payload[index].index}.result`,
-              res.model_output.performance_index
-            );
-          } else {
-            form.setFieldValue(`students.${payload[index].index}.status`, 'rejected');
-            form.setFieldValue(`students.${payload[index].index}.error`, 'Something went wrong');
-          }
-        })
-        .catch((error) => {
-          form.setFieldValue(`students.${payload[index].index}.error`, error);
-        });
-    });
+      try {
+        const res: { status: any; model_output: { performance_index: number } } =
+          await requests[index];
+        if (res) {
+          form.setFieldValue(`students.${payload[index].index}.status`, 'resolved');
+          form.setFieldValue(
+            `students.${payload[index].index}.result`,
+            res.model_output.performance_index
+          );
+        } else {
+          form.setFieldValue(`students.${payload[index].index}.status`, 'rejected');
+          form.setFieldValue(`students.${payload[index].index}.error`, 'Something went wrong');
+        }
+      } catch (error) {
+        // @ts-ignore
+        const errorMessage =  error.response?.data?.message || error?.message || 'An error occurred';
+        form.setFieldValue(`students.${payload[index].index}.error`, errorMessage);
+      }
+    }
   };
 
   return (

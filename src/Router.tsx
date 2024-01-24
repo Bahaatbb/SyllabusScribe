@@ -9,11 +9,15 @@ import {
   ContextBuilder,
   LessonPlanner,
   QuizBuilder,
-  UnitPlanner,
   WorksheetsCreator,
   StudentPerformanceModel,
+  Context,
+  Lesson,
+  Quiz,
+  Worksheet,
 } from './pages';
 import { ROUTES } from './constants/routes.enum';
+import { Profile } from './pages/Profile.page';
 
 
 const router = createBrowserRouter([
@@ -46,27 +50,41 @@ const router = createBrowserRouter([
     element: <LessonPlanner />,
   },
   {
+    path: ROUTES.EDUCATIONAL_GARAGE + ROUTES.LESSON_PLANNER + '/:id',
+    element: <Lesson />,
+  },
+  {
     path: ROUTES.EDUCATIONAL_GARAGE + ROUTES.CONTEXT_BUILDER,
     element: <ContextBuilder />,
   },
   {
-    path: ROUTES.EDUCATIONAL_GARAGE + ROUTES.UNIT_PLANNER,
-    element: <UnitPlanner />,
+    path: ROUTES.EDUCATIONAL_GARAGE + ROUTES.CONTEXT_BUILDER + '/:id',
+    element: <Context />,
   },
   {
     path: ROUTES.EDUCATIONAL_GARAGE + ROUTES.WORKSHEETS,
     element: <WorksheetsCreator />,
   },
   {
+    path: ROUTES.EDUCATIONAL_GARAGE + ROUTES.WORKSHEETS + '/:id',
+    element: <Worksheet />,
+  },
+  {
     path: ROUTES.EDUCATIONAL_GARAGE + ROUTES.QUIZ_BUILDER,
     element: <QuizBuilder />,
   },
   {
+    path: ROUTES.EDUCATIONAL_GARAGE + ROUTES.QUIZ_BUILDER + '/:id',
+    element: <Quiz />,
+  },
+  {
     path: ROUTES.EDUCATIONAL_GARAGE + ROUTES.STUDENT_PERFORMANCE,
     element: <StudentPerformanceModel/>
-
+  },
+  {
+    path: ROUTES.PROFILE,
+    element: <Profile />
   }
-
 ]);
 
 export function Router() {

@@ -10,6 +10,7 @@ import { QuizBuilder } from './QuizBuilder.page';
 import { UnitPlanner } from './UnitPlanner.page';
 import { WorksheetsCreator } from './Worksheets.page';
 import { StudentPerformanceModel } from './StudentPerformance.page';
+import { Context, Lesson, Worksheet, Quiz } from './SingleViews';
 
 export {
   HomePage,
@@ -23,5 +24,9 @@ export {
   QuizBuilder,
   UnitPlanner,
   WorksheetsCreator,
-  StudentPerformanceModel
+  StudentPerformanceModel,
+  Context,
+  Lesson,
+  Worksheet,
+  Quiz,
 };

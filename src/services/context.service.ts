@@ -18,8 +18,18 @@ export class ContextService extends APIService {
       });
   }
 
+  async getOneContext(id: string): Promise<any> {
+    return this.get(`/api/lesson-context/${id}`)
+      .then((response) => {
+        return response?.data;
+      })
+      .catch((error) => {
+        throw error?.response?.data;
+      });
+  }
+
   async createContext(data: IPresnetationData): Promise<any> {
-    return this.post('/api/large-language-model/generate-Context/', data)
+    return this.post('/api/large-language-model/generate-context/', data)
       .then((response) => {
         return response?.data;
       })

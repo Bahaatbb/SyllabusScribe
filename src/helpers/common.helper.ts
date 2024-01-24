@@ -29,7 +29,6 @@ export const isTokenExpired = (token: string): boolean => {
   try {
     const decodedToken: any = jwtDecode(token);
     const currentTime = Math.floor(Date.now() / 1000); // Get current time in seconds
-
     // Check if the token is expired by comparing the expiration time with the current time
     return decodedToken.exp < currentTime;
   } catch (error) {
@@ -38,3 +37,4 @@ export const isTokenExpired = (token: string): boolean => {
     return true;
   }
 }
+export type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>;  

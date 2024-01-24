@@ -1,6 +1,7 @@
-import { Badge, Box, Button, Card, Divider, Flex, Group, Spoiler, Text, rem } from '@mantine/core';
-import { IconArrowBadgeRightFilled, IconEye, IconSchool } from '@tabler/icons-react';
-import React from 'react';
+import { ROUTES } from '@/constants/routes.enum';
+import { Box, Button, Card, Divider, Flex, Text, rem } from '@mantine/core';
+import { IconArrowBadgeRightFilled, IconSchool } from '@tabler/icons-react';
+import { useNavigate } from 'react-router-dom';
 
 export const ContextCard = ({
   content,
@@ -13,6 +14,7 @@ export const ContextCard = ({
   topic: string;
   grade_level: string;
 }) => {
+  const navigate = useNavigate();
   return (
     <Card
       style={{
@@ -56,24 +58,28 @@ export const ContextCard = ({
       </Card.Section>
       <Divider />
       <Card.Section p="lg">
-        <Text
+        <Box
           fz="sm"
           style={{
             display: 'block',
             maxHeight: rem(200),
-            width: rem(600),
+            minWidth: rem(300),
+            maxWidth: rem(600),
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             whiteSpace: 'wrap',
           }}
         >
-          {content}
-        </Text>
+          {content.split('\n').map((line) => (
+            <Text key={line}>{line}</Text>
+          ))}
+        </Box>
       </Card.Section>
       <Button
         rightSection={<IconArrowBadgeRightFilled style={{ color: '#f0b206' }} />}
         bg="#2951dc"
         radius={10}
+        onClick={()=> navigate(`${ROUTES.EDUCATIONAL_GARAGE}${ROUTES.CONTEXT_BUILDER}/${id}`)}
       >
         Show more
       </Button>

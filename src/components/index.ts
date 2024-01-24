@@ -7,10 +7,11 @@ import { GeneratePresentationForm, PresentationCard, YourPresentationts } from '
 import { LoadingForm } from './LoadingForm';
 import { LessonContexts, LessonPlans, Presentations, LessonQuizzes, LessonWorksheets } from './History';
 import { Plans,GeneratePlanForm } from './Plans';
-import { Contexts } from './Contexts';
+import { Contexts, BuildContextForm} from './Contexts';
 import { Quizzes, GenerateQuizForm } from './Quizzes';
 import { Worksheets } from './Worksheets';
 import { StudentPerformance } from './StudentPerformance';
+import { ProfileForm, ProfileCard } from './Profile';
 export {
   Container,
   NavMenu,
@@ -33,5 +34,8 @@ export {
   Quizzes,
   Worksheets,
   StudentPerformance,
-  GenerateQuizForm
+  GenerateQuizForm,
+  ProfileForm,
+  BuildContextForm,
+  ProfileCard
 };

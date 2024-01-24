@@ -31,17 +31,9 @@ export class AuthService extends APIService {
   }
 
   async signOut() {
-    return this.post('/api/sign-out/', { refresh_token: this.getRefreshToken() })
-      .then((response) => {
-        this.purgeAccessToken();
-        this.purgeRefreshToken();
-        return response?.data;
-      })
-      .catch((error) => {
-        this.purgeAccessToken();
-        this.purgeRefreshToken();
-        throw error?.response?.data;
-      });
+    this.purgeAccessToken();
+    this.purgeRefreshToken();
+    window.location.href = '/login';
   }
 
   async refreshToken() {

@@ -41,27 +41,25 @@ const GeneratePlanForm = () => {
       loading: true,
     });
 
-    createPlan(values);
+    createPlan(values, {
+      onSuccess(data, variables, context) {
+        notifications.show({
+          title: 'Success',
+          message: 'Plan was generated successfully',
+          color: 'green',
+        });
+        form.reset();
+      },
+      onError(error, variables, context) {
+        console.log(error)
+        notifications.show({
+          title: 'Error',
+          message: 'Failed to generate plan',
+          color: 'red',
+        });
+      },
+    });
   };
-
-  useEffect(() => {
-    if (error) {
-      notifications.show({
-        title: 'Error',
-        message: 'Failed to generate plan',
-        color: 'red',
-      });
-    }
-    // prevent the form from submitting
-    if (isSuccess) {
-      notifications.show({
-        title: 'Success',
-        message: 'Plan was generated successfully',
-        color: 'green',
-      });
-      form.reset();
-    }
-  }, [error, isSuccess]);
 
   return (
     <motion.div

@@ -117,12 +117,8 @@ function Register(props: PaperProps) {
         <Text size="xl" fw={500} ta={'center'}>
           Register
         </Text>
-        {/* <Text size="sm" fw={300}>
-        Welcome to Syllabus Scribe
-      </Text> */}
         <Group grow mb="md" mt="md">
           <GoogleButton radius={10}>Google</GoogleButton>
-          {/* <TwitterButton radius="xl">Twitter</TwitterButton> */}
         </Group>
 
         <Divider label="Or continue with email" labelPosition="center" my="lg" />

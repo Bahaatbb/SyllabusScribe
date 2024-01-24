@@ -18,6 +18,16 @@ export class PlanService extends APIService {
       });
   }
 
+  async getOnePlan(id: string): Promise<any> {
+    return this.get(`/api/lesson-plan/${id}`)
+      .then((response) => {
+        return response?.data;
+      })
+      .catch((error) => {
+        throw error?.response?.data;
+      });
+  }
+
   async createPlan(data: IPresnetationData): Promise<any> {
     return this.post('/api/large-language-model/generate-lesson-plan/', data)
       .then((response) => {
