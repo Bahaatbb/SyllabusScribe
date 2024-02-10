@@ -51,10 +51,10 @@ const GeneratePlanForm = () => {
         form.reset();
       },
       onError(error, variables, context) {
-        console.log(error)
         notifications.show({
-          title: 'Error',
-          message: 'Failed to generate plan',
+          title: 'Something went wrong',
+          //@ts-ignore
+          message: error?.error || error?.message || error?.detail || 'Failed to generate your plan' ,
           color: 'red',
         });
       },

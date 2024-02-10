@@ -6,7 +6,7 @@ export const LessonWorksheets = () => {
   return (
     <Flex gap={'sm'} direction={'column'} mt={'lg'}>
       <Text fz={'lg'} fw={'bold'}>
-        Your Workshets
+        Your Handouts
       </Text>
       <Divider />
       <Worksheets />

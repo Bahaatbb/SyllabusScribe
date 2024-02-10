@@ -19,7 +19,7 @@ const PresentationGenerator = () => {
         <GeneratePresentationForm />
         <Flex align={'center'} justify={'space-between'}>
           <Text my="lg" fw={600}>
-            Your presentations
+            Your Presentations
           </Text>
          
         </Flex>

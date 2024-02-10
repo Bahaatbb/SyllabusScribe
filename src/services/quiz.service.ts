@@ -28,6 +28,17 @@ export class QuizService extends APIService {
       });
   }
 
+  async deleteOneQuiz(id:string): Promise<any>{
+    return this.delete(`/api/lesson-quiz/${id}`)
+      .then((response) => {
+        return response?.data;
+      })
+      .catch((error) => {
+        throw error?.response?.data;
+      });
+  }
+
+
   async createQuiz(data: IQuizData): Promise<any> {
     return this.post('/api/large-language-model/generate-quiz/', data)
       .then((response) => {

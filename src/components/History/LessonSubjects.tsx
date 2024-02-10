@@ -1,14 +1,14 @@
 import { Flex, Divider, Text } from '@mantine/core';
-import { Units } from '../Units';
+import { Subjects } from '../Subjects';
 
-export const LessonUnits = () => {
+export const LessonSubjects = () => {
   return (
     <Flex gap={'sm'} direction={'column'} mt={'lg'}>
       <Text fz={'lg'} fw={'bold'}>
-        Your Plans
+        Your Subjects
       </Text>
       <Divider />
-      <Units />
+      <Subjects />
     </Flex>
   );
 };

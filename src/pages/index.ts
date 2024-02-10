@@ -11,6 +11,9 @@ import { UnitPlanner } from './UnitPlanner.page';
 import { WorksheetsCreator } from './Worksheets.page';
 import { StudentPerformanceModel } from './StudentPerformance.page';
 import { Context, Lesson, Worksheet, Quiz } from './SingleViews';
+import { SyllabusScriber } from './SyllabusScriber.page';
+import { Unit } from './Unit.page';
+import { Profile } from './Profile.page';
 
 export {
   HomePage,
@@ -29,4 +32,7 @@ export {
   Lesson,
   Worksheet,
   Quiz,
+  SyllabusScriber,
+  Unit,
+  Profile
 };

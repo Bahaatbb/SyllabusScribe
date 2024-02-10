@@ -41,7 +41,7 @@ const GenerateQuizForm = () => {
       loading: true,
     });
 
-    createQuiz(values,{
+    createQuiz(values, {
       onSuccess(data, variables, context) {
         notifications.show({
           title: 'Success',
@@ -51,10 +51,12 @@ const GenerateQuizForm = () => {
         form.reset();
       },
       onError(error, variables, context) {
-        console.log(error)
+        console.log(error);
         notifications.show({
-          title: 'Error',
-          message: 'Failed to generate Quiz',
+          title: 'Something went wrong',
+          message:
+            //@ts-ignore
+            error?.error || error?.message || error?.detail || 'Failed to generate your quiz',
           color: 'red',
         });
       },

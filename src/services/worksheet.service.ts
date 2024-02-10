@@ -28,8 +28,18 @@ export class WorksheetsService extends APIService {
       });
   }
 
+  async deleteWorksheet(id: string): Promise<any> {
+    return this.delete(`/api/worksheet/${id}`)
+      .then((response) => {
+        return response?.data;
+      })
+      .catch((error) => {
+        throw error?.response?.data;
+      });
+  }
+
   async createWorksheet(data: IPresnetationData): Promise<any> {
-    return this.post('/api/large-language-model/generate-handouts/', data)
+    return this.post('/api/large-language-model/generate-handout/', data)
       .then((response) => {
         return response?.data;
       })

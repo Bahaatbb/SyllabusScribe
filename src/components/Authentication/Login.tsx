@@ -14,12 +14,12 @@ import {
 } from '@mantine/core';
 import { z } from 'zod';
 
-import { GoogleButton } from './GoogleButton';
 import { Link, useNavigate } from 'react-router-dom';
 import { ILoginInData } from '@/types/auth';
 import { AuthService } from '@/services/auth.service';
 import { useEffect, useState } from 'react';
 import { motion, useAnimation } from 'framer-motion';
+import { ROUTES } from '@/constants/routes.enum';
 
 const schema = z.object({
   username: z.string(),
@@ -55,7 +55,7 @@ function Login(props: PaperProps) {
     await authService
       .Login(payload)
       .then((res) => {
-        navigate('/');
+        navigate(ROUTES.EDUCATIONAL_GARAGE);
         form.reset();
       })
       .catch((err) => {
@@ -89,9 +89,6 @@ function Login(props: PaperProps) {
         <Text size="xl" fw={500} ta={'center'}>
           Login
         </Text>
-        <Group grow mb="md" mt="md">
-          <GoogleButton radius={10}>Google</GoogleButton>
-        </Group>
 
         <Divider label="Or continue with us" labelPosition="center" my="lg" />
 
@@ -109,7 +106,7 @@ function Login(props: PaperProps) {
             <TextInput
               required
               label="Username"
-              placeholder="example"
+              placeholder="username"
               value={form.values.username}
               onChange={(event) => form.setFieldValue('username', event.currentTarget.value)}
               error={form.errors.username}

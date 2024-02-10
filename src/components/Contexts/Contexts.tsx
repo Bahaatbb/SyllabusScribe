@@ -1,8 +1,10 @@
-import { Grid, Box } from '@mantine/core';
+import { Grid, Box, Flex, Button, rem, Text } from '@mantine/core';
 import { useQuery } from 'react-query';
 import { ContextCard } from './ContextCard';
 import { Loader } from '../Loader';
 import { ContextService } from '@/services/context.service';
+import { IconRefresh } from '@tabler/icons-react';
+import { Container } from '../Container/Container';
 
 const contextservice = new ContextService();
 const getContexts = () => {
@@ -10,12 +12,33 @@ const getContexts = () => {
 };
 
 export const Contexts = () => {
-  const { data, isLoading, error } = useQuery<
+  const { data, isLoading, error, refetch } = useQuery<
     { topic: string; id: number; content: string; grade_level: string }[]
   >({
     queryKey: 'context',
     queryFn: getContexts,
   });
+
+  if (error) {
+    return (
+      <>
+        <Flex align={'center'} justify={'center'} direction={'column'} w={'100%'} h={600}>
+          {/* @ts-ignore */}
+          <Text c={'red'}>{error?.error || error?.detail || 'Something Went wrong'}</Text>
+          <Button
+            w={rem(200)}
+            mt={rem(25)}
+            rightSection={<IconRefresh />}
+            color="#7b7b7b"
+            radius={'lg'}
+            onClick={() => refetch()}
+          >
+            Retry
+          </Button>
+        </Flex>
+      </>
+    );
+  }
 
   return (
     <Box
@@ -36,8 +59,8 @@ export const Contexts = () => {
       ) : (
         <Grid grow>
           {data &&
-            data.map((item) => (
-              <Grid.Col maw={'100%'} span={3}>
+            data.map((item, index) => (
+              <Grid.Col key={index} maw={'100%'} span={3}>
                 <ContextCard
                   id={item.id}
                   key={item.id}

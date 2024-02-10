@@ -51,8 +51,9 @@ const BuildContextForm = () => {
       onError(error) {
         console.log(error);
         notifications.show({
-          title: 'Error',
-          message: 'Failed to generate context',
+          title: 'Something went wrong',
+          //@ts-ignore
+          message: error?.error || error?.message || error?.detail || 'Failed to generate context',
           color: 'red',
         });
       },

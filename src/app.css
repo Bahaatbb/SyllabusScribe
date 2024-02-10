@@ -35,3 +35,51 @@
 .education-card:hover {
   border: 1px solid #9eb2fd;
 }
+.typewriter h1 {
+  overflow: hidden;
+  border-right: .15em solid orange; /* The typwriter cursor */
+  white-space: nowrap; 
+  /* margin: 0 auto; Gives that scrolling effect as the typing happens */
+  letter-spacing: .15em; /* Adjust as needed */
+  animation: 
+    typing 3.5s steps(40, end),
+    blink-caret .75s step-end infinite;
+}
+
+/* The typing effect */
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+/* The typewriter cursor effect */
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: orange; }
+}
+/* Default width */
+.w {
+  width: 100%; /* Default width for all devices */
+}
+
+/* Media query for mobile devices */
+@media only screen and (max-width: 600px) {
+  .w {
+    width: 100%; /* Width for mobile devices */
+  }
+}
+
+/* Media query for PCs */
+@media only screen and (min-width: 601px) {
+  .w {
+    width: 80%; /* Width for PCs */
+  }
+}
+
+
+.card-hover-effect{
+  border: 1px solid #9eb2fd;
+}
+.card-hover-effect:hover{
+  background-color: #c2cfff16;
+}

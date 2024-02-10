@@ -14,16 +14,23 @@ import {
   IconPresentation,
   IconAffiliate,
   IconFileTypePpt,
-  IconFileAnalytics,
   IconNotes,
+  IconListNumbers,
 } from '@tabler/icons-react';
+import { LessonSubjects } from '@/components/History';
 
 const History = () => {
   return (
     <motion.div>
       <Container title="History">
-        <StyledTabs defaultValue="plans">
+        <StyledTabs defaultValue="subjects">
           <Tabs.List grow>
+          <Tabs.Tab
+              value="subjects"
+              leftSection={<IconListNumbers style={{ width: rem(20), height: rem(20) }} />}
+            >
+              Subjects
+            </Tabs.Tab>
             <Tabs.Tab
               value="plans"
               leftSection={<IconBooks style={{ width: rem(20), height: rem(20) }} />}
@@ -46,7 +53,7 @@ const History = () => {
               value="worksheets"
               leftSection={<IconFileTypePpt style={{ width: rem(20), height: rem(20) }} />}
             >
-              Worksheets
+              Handouts
             </Tabs.Tab>
             <Tabs.Tab
               value="quizzes"
@@ -54,7 +61,11 @@ const History = () => {
             >
               Quizzes
             </Tabs.Tab>
+          
           </Tabs.List>
+          <Tabs.Panel value="subjects">
+            <LessonSubjects />
+          </Tabs.Panel>
           <Tabs.Panel value="plans">
             <LessonPlans />
           </Tabs.Panel>
@@ -67,10 +78,10 @@ const History = () => {
           <Tabs.Panel value="worksheets">
             <LessonWorksheets />
           </Tabs.Panel>
-        
           <Tabs.Panel value="quizzes">
             <LessonQuizzes />
           </Tabs.Panel>
+         
         </StyledTabs>
       </Container>
     </motion.div>

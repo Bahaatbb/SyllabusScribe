@@ -6,7 +6,7 @@ export const ProfileCard = ({ data }: { data: IUser }) => {
   return (
     <Box>
       <Flex justify={'center'} direction={'column'} align={'center'}>
-        <Avatar w={rem(100)} h={rem(100)} src={`http://localhost:8000${data?.avatar}`} />
+        <Avatar w={rem(100)} h={rem(100)} src={`${import.meta.env.VITE_API_URL}/${data?.avatar}`} />
         <Flex align={'center'} justify={'center'}>
           <IconAt
             style={{
@@ -23,6 +23,7 @@ export const ProfileCard = ({ data }: { data: IUser }) => {
           color="#2951dc"
           style={{
             marginRight: rem(5),
+            marginBottom: rem(4)
           }}
         />
         <Text fw={600}>Bio: </Text>
@@ -40,6 +41,7 @@ export const ProfileCard = ({ data }: { data: IUser }) => {
           color="#2951dc"
           style={{
             marginRight: rem(5),
+            marginBottom: rem(4)
           }}
         />
         <Text fw={600}>Info:</Text>

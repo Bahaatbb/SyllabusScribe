@@ -55,10 +55,11 @@ const GeneratePresentationForm = () => {
         form.reset();
       },
       onError(error) {
-        console.log(error);
         notifications.show({
           title: 'Error',
-          message: 'Failed to generate presentation',
+          message:
+          //@ts-ignore
+            error?.error || error?.message || error?.detail || 'Failed to generate your presentation',
           color: 'red',
         });
       },

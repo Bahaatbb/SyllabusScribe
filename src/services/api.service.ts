@@ -38,7 +38,6 @@ abstract class APIService {
         // it means the token has expired and we need to refresh it
         if (error.response.status === 401 && !originalRequest._retry) {
           originalRequest._retry = true;
-
           try {
             const refreshToken = this.getRefreshToken(); //path not login
             if (
@@ -48,7 +47,8 @@ abstract class APIService {
             ) {
               if (
                 !window.location.pathname.includes('/login') &&
-                !window.location.pathname.includes('/register')
+                !window.location.pathname.includes('/register') &&
+                window.location.pathname !== '/'
               ) {
                 notifications.show({
                   title: 'Error',
@@ -60,8 +60,8 @@ abstract class APIService {
               return Promise.reject(error);
             }
 
-            const refreshResponse = await this.axiosInstance.post(
-              'http://localhost:8000/api/auth/login/refresh',
+            const refreshResponse = await axios.post(
+              `${import.meta.env.VITE_API_URL}/api/auth/login/refresh`,
               {
                 refresh: refreshToken,
               }
@@ -118,6 +118,7 @@ abstract class APIService {
     return this.axiosInstance({
       method: 'get',
       url: this.baseURL + url,
+      headers: this.getAccessToken() ? this.getHeaders() : {},
       ...config,
     });
   }

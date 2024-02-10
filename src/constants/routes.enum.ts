@@ -9,7 +9,8 @@ export enum ROUTES {
   CONTEXT_BUILDER = '/context-builder',
   QUIZ_BUILDER = '/quiz-builder',
   UNIT_PLANNER = '/unit-planner',
-  WORKSHEETS = '/worksheets',
+  WORKSHEETS = '/handouts',
   STUDENT_PERFORMANCE = '/student-performance',
   PROFILE = '/profile',
+  SYLLABUS_SCRIBER = '/syllabus-scriber',
 }

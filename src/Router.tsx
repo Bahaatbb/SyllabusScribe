@@ -15,15 +15,24 @@ import {
   Lesson,
   Quiz,
   Worksheet,
+  Unit,
+  SyllabusScriber,
+  Profile
 } from './pages';
 import { ROUTES } from './constants/routes.enum';
-import { Profile } from './pages/Profile.page';
-
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <HomePage />,
+  },
+  {
+    path:ROUTES.SYLLABUS_SCRIBER,
+    element: <SyllabusScriber />
+  },
+  {
+    path: ROUTES.SYLLABUS_SCRIBER + ROUTES.UNIT_PLANNER + '/:id',
+    element: <Unit />
   },
   {
     path: ROUTES.EDUCATIONAL_GARAGE,

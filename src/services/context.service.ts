@@ -28,6 +28,15 @@ export class ContextService extends APIService {
       });
   }
 
+  async deleteContext(id: string): Promise<any> {
+    return this.get(`/api/context/${id}`)
+      .then((response) => {
+        return response?.data;
+      })
+      .catch((error) => {
+        throw error?.response?.data;
+      });
+  }
   async createContext(data: IPresnetationData): Promise<any> {
     return this.post('/api/large-language-model/generate-context/', data)
       .then((response) => {

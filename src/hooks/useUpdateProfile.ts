@@ -1,24 +1,22 @@
 // useGeneratePresentationReactQuery.ts
 import { useMutation, useQueryClient } from 'react-query';
-import { ContextService } from '@/services/context.service';
+import { UserService } from '@/services/user.service';
 
-const contextservice = new ContextService();
-
-const buildContext = (payload: any) => {
-  // Update this logic as per your API endpoint
-  return contextservice.createContext(payload);
+const userservice = new UserService();
+const updateUser = (payload: any) => {
+  return userservice.updateMe(payload);
 };
 
-export const useBuildContext = () => {
+export const useUpdateProfile = () => {
   const queryClient = useQueryClient();
 
-  const mutation = useMutation(buildContext, {
+  const mutation = useMutation(updateUser, {
     onSuccess: () => {
       queryClient.invalidateQueries('user');
     },
   });
   return {
-    buildContext: mutation.mutate,
+    updateUser: mutation.mutate,
     data: mutation.data,
     error: mutation.error,
     loading: mutation.isLoading,

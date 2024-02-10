@@ -5,13 +5,16 @@ import { EducationCard } from './EducationCard';
 import { Loader } from './Loader';
 import { GeneratePresentationForm, PresentationCard, YourPresentationts } from './Presentations';
 import { LoadingForm } from './LoadingForm';
-import { LessonContexts, LessonPlans, Presentations, LessonQuizzes, LessonWorksheets } from './History';
+import { LessonContexts, LessonPlans, Presentations, LessonQuizzes, LessonWorksheets, LessonSubjects } from './History';
 import { Plans,GeneratePlanForm } from './Plans';
 import { Contexts, BuildContextForm} from './Contexts';
 import { Quizzes, GenerateQuizForm } from './Quizzes';
-import { Worksheets } from './Worksheets';
+import { BuildWorkSheetForm, Worksheets } from './Worksheets';
 import { StudentPerformance } from './StudentPerformance';
 import { ProfileForm, ProfileCard } from './Profile';
+import { StyledLink } from './Home';
+import { SyllabusScriberForm, Units } from './SyllabusScriber';
+
 export {
   Container,
   NavMenu,
@@ -37,5 +40,10 @@ export {
   GenerateQuizForm,
   ProfileForm,
   BuildContextForm,
-  ProfileCard
+  ProfileCard,
+  StyledLink,
+  BuildWorkSheetForm,
+  LessonSubjects,
+  SyllabusScriberForm,
+  Units
 };

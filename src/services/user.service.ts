@@ -19,10 +19,11 @@ export class UserService extends APIService {
   }
 
   async updateMe(data: any): Promise<any> {
-    return this.patch("/api/users/me/", data)
+    return this.put("/api/user/edit-info", data)
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;
       });
   }
+  
 }

@@ -28,7 +28,17 @@ export class PlanService extends APIService {
       });
   }
 
-  async createPlan(data: IPresnetationData): Promise<any> {
+  async deletePlan(id: string): Promise<any> {
+    return this.delete(`/api/lesson-plan/${id}`)
+      .then((response) => {
+        return response?.data;
+      })
+      .catch((error) => {
+        throw error?.response?.data;
+      });
+  }
+
+  async createPlan(data: Omit<IPresnetationData, 'num_slides'>): Promise<any> {
     return this.post('/api/large-language-model/generate-lesson-plan/', data)
       .then((response) => {
         return response?.data;

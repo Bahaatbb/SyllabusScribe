@@ -1,8 +1,10 @@
-import { Grid, Box } from '@mantine/core';
+import { Grid, Box, Flex, Button, rem, Text } from '@mantine/core';
 import { useQuery } from 'react-query';
 import { WorksheetsCard } from './WorksheetsCard';
 import { Loader } from '../Loader';
 import { WorksheetsService } from '@/services/worksheet.service';
+import { IconRefresh } from '@tabler/icons-react';
+import { Container } from '../Container/Container';
 
 const worksheetsservice = new WorksheetsService();
 const getworksheets = () => {
@@ -10,13 +12,33 @@ const getworksheets = () => {
 };
 
 export const Worksheets = () => {
-  const { data, isLoading, error } = useQuery<
+  const { data, isLoading, error, refetch } = useQuery<
     { topic: string; id: number; content: string; grade_level: string }[]
   >({
     queryKey: 'worksheet',
     queryFn: getworksheets,
   });
 
+  if (error) {
+    return (
+      <>
+        <Flex align={'center'} justify={'center'} direction={'column'} w={'100%'} h={600}>
+          {/* @ts-ignore */}
+          <Text c={'red'}>{error?.error || error?.detail || 'Something Went wrong'}</Text>
+          <Button
+            w={rem(200)}
+            mt={rem(25)}
+            rightSection={<IconRefresh />}
+            color="#7b7b7b"
+            radius={'lg'}
+            onClick={() => refetch()}
+          >
+            Retry
+          </Button>
+        </Flex>
+      </>
+    );
+  }
   return (
     <Box
       style={{
@@ -37,7 +59,7 @@ export const Worksheets = () => {
         <Grid grow>
           {data &&
             data.map((item) => (
-              <Grid.Col maw={'100%'} span={3}>
+              <Grid.Col key={item.id} maw={'100%'} span={3}>
                 <WorksheetsCard
                   id={item.id}
                   key={item.id}

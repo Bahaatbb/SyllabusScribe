@@ -30,13 +30,14 @@ export const Profile = () => {
       setFormData(data);
     },
   });
+  
 
   return (
     <motion.div initial="hidden" animate="visible" variants={containerVariants}>
       <Container title="User Profile" has_parent>
         <Flex align={'center'} justify={'space-between'}>
           <Text my="lg" fw={600}>
-            Edit Profile
+          {edit ? 'Edit Profile' : 'Profile'}
           </Text>
           <Button
             leftSection={

@@ -22,7 +22,7 @@ export const debounce = (func: any, wait: number, immediate: boolean = false) =>
 const userAgent = navigator.userAgent;
 const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
 
-export const API_BASE_URL = 'http://localhost:8000';
+export const API_BASE_URL = import.meta.env.VITE_API_URL;
 export const IS_MOBILE = isMobile;
 
 export const isTokenExpired = (token: string): boolean => {

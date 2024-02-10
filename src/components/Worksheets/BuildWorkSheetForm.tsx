@@ -1,20 +1,20 @@
-import { NumberInput, TextInput, NativeSelect, rem, Flex, Button, Box } from '@mantine/core';
+import { z } from 'zod';
+import { TextInput, NativeSelect, rem, Flex, Button, Box } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
 import { IconSchool } from '@tabler/icons-react';
 import { motion } from 'framer-motion';
-import { z } from 'zod';
+
 import { notifications } from '@mantine/notifications';
-import { useGeneratePresentation } from '@/hooks/useGeneratePresentation';
 import { LoadingForm } from '../LoadingForm';
-import { useEffect } from 'react';
+import { useBuildWorksheet } from '@/hooks/useBuildWorksheet';
 
 const schema = z.object({
   topic: z.string().min(1, 'Please enter a topic'),
   grade_level: z.string().min(1, 'Please enter a grade level'),
 });
 
-const GeneratePlanForm = () => {
-  const { data, error, loading, generatePresentation, isSuccess } = useGeneratePresentation();
+const BuildWorkSheetForm = () => {
+  const { loading, buildWorksheet } = useBuildWorksheet();
 
   const formVariants = {
     hidden: { opacity: 0, x: -50 },
@@ -35,32 +35,31 @@ const GeneratePlanForm = () => {
 
   const handleFormSubmit = async (values: FormValues) => {
     notifications.show({
-      title: 'Generating your lesson plan',
-      message: 'Please wait while we generate your plan',
+      title: 'Generating your Handout',
+      message: 'Please wait while we Build your Handout',
       loading: true,
     });
 
-    generatePresentation(values);
+    buildWorksheet(values,{
+      onSuccess(data, variables, context) {
+        notifications.show({
+          title: 'Success',
+          message: 'Handout was Built successfully',
+          color: 'green',
+        });
+        form.reset();
+      },
+      onError(error, variables, context) {
+        notifications.show({
+          title: 'Something went wrong',
+          message:
+          //@ts-ignore
+            error?.error || error?.message || error?.detail || 'Failed to generate your presentation',
+          color: 'red',
+        });
+      },
+    });
   };
-
-  useEffect(() => {
-    if (error) {
-      notifications.show({
-        title: 'Error',
-        message: 'Failed to generate plan',
-        color: 'red',
-      });
-    }
-    // prevent the form from submitting
-    if (isSuccess) {
-      notifications.show({
-        title: 'Success',
-        message: 'Plan was generated successfully',
-        color: 'green',
-      });
-      form.reset();
-    }
-  }, [error, isSuccess]);
 
   return (
     <motion.div
@@ -108,4 +107,4 @@ const GeneratePlanForm = () => {
   );
 };
 
-export { GeneratePlanForm };
+export { BuildWorkSheetForm };

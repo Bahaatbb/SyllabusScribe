@@ -1,7 +1,9 @@
 import { ROUTES } from '@/constants/routes.enum';
-import { Box, Button, Card, Divider, Flex, Group, Text, rem } from '@mantine/core';
-import { IconArrowBadgeRightFilled, IconSchool } from '@tabler/icons-react';
+import { Box, Button, Card, Divider, Flex, Group, Menu, Modal, Text, rem } from '@mantine/core';
+import { IconArrowBadgeRightFilled, IconSchool, IconX } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
+import { Points } from '../points';
+import { useDisclosure } from '@mantine/hooks';
 
 export const QuizzesCard = ({
   topic,
@@ -15,11 +17,15 @@ export const QuizzesCard = ({
   quiz_qas: { id: number; question: string; answer: string }[];
 }) => {
   const navigate = useNavigate();
+  const [opened, { open, close }] = useDisclosure(false);
+
   return (
     <Card
       style={{
         display: 'flex',
         flexDirection: 'column',
+        justifyContent: 'space-between',
+        minHeight: rem(357),
       }}
       shadow="sm"
       withBorder={true}
@@ -28,19 +34,21 @@ export const QuizzesCard = ({
     >
       <Card.Section p="lg">
         <Flex justify={'space-between'}>
-          <Text fw={600} ta={'left'} fz={'lg'}>
-            <Box
-              component="span"
-              style={{
-                display: 'block',
-                maxWidth: rem(500),
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              {topic}
-            </Box>
+          <Box fw={600} ta={'left'} fz={'lg'} w={'100%'}>
+            <Flex align={'center'} justify={'space-between'} w={'100%'}>
+              <Box
+                component="span"
+                style={{
+                  display: 'block',
+                  maxWidth: rem(340),
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {topic}
+              </Box>
+            </Flex>
             <Flex gap={8} align={'center'}>
               <IconSchool
                 color="#5085c6"
@@ -53,7 +61,7 @@ export const QuizzesCard = ({
                 {grade_level.charAt(0).toUpperCase() + grade_level.slice(1)}
               </Text>
             </Flex>
-          </Text>
+          </Box>
         </Flex>
       </Card.Section>
       <Divider />
@@ -70,7 +78,7 @@ export const QuizzesCard = ({
           <Box
             style={{
               boxSizing: 'border-box',
-              maxHeight: rem(20),
+              maxHeight: rem(22),
               width: '100%',
               overflow: 'hidden',
               textOverflow: 'clip',

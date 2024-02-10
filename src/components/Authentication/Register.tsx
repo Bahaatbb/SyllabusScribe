@@ -32,7 +32,6 @@ const schema = z
       .max(50, 'Username should be at most 50 characters'),
     password: z
       .string()
-      // should contain at least one number and one special character and one capital letter
       .regex(/^(?=.*\d)(?=.*[!@#$%^&*()_+])[a-zA-Z0-9!@#$%^&*()_+]{6,}$/, {
         message:
           'Password should contain at least one number and one special character and one capital letter',
@@ -47,7 +46,7 @@ const schema = z
 
 const authService = new AuthService();
 
-function Register(props: PaperProps) {
+function Register() {
   const [error, setError] = useState<null | string>(null);
 
   const form = useForm<{
@@ -89,7 +88,7 @@ function Register(props: PaperProps) {
         form.reset();
       })
       .catch((err) => {
-        setError(err?.detail || err?.message || 'An error occurred');
+        setError(err?.detail || err?.message || (err?.error && 'User already exists') || 'An error occurred');
       });
   };
   const controls = useAnimation();
@@ -104,6 +103,7 @@ function Register(props: PaperProps) {
       transition: { duration: 0.5, ease: 'easeInOut' },
     });
   }, []);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: -50 }} // Initial logo position
@@ -113,13 +113,10 @@ function Register(props: PaperProps) {
         maxWidth: rem(500),
       }}
     >
-      <Paper radius="md" p="xl" withBorder {...props} w="100%" maw={500} shadow="0 0 4px #bdbdbd">
+      <Paper radius="md" p="xl" withBorder w="100%" maw={500} shadow="0 0 4px #bdbdbd">
         <Text size="xl" fw={500} ta={'center'}>
           Register
         </Text>
-        <Group grow mb="md" mt="md">
-          <GoogleButton radius={10}>Google</GoogleButton>
-        </Group>
 
         <Divider label="Or continue with email" labelPosition="center" my="lg" />
 

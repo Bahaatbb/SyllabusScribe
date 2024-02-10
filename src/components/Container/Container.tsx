@@ -1,5 +1,5 @@
 import { ReactNode, useState } from 'react';
-import { AppShell, Burger, Flex, Box, Image, Text, Skeleton, Menu } from '@mantine/core';
+import { AppShell, Burger, Flex, Box, Image, Text, Skeleton, Menu, Button } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -9,6 +9,7 @@ import {
   IconUser,
   IconLogout,
   IconArrowLeft,
+  IconRefresh,
 } from '@tabler/icons-react';
 import { rem } from '@mantine/core';
 
@@ -38,9 +39,8 @@ export function Container({
 }) {
   const [opened, { toggle, close }] = useDisclosure();
   const navigate = useNavigate();
-  const [user, setUser] = useState<null | IUser>(null);
 
-  const { data, isLoading, error } = useQuery<IUser>({
+  const { data, isLoading, error, refetch } = useQuery<IUser>({
     queryKey: 'user',
     queryFn: getUser,
   });
@@ -49,7 +49,7 @@ export function Container({
     {
       icon: <IconBook style={{ width: rem(30), height: rem(40) }} stroke={1.5} />,
       label: 'Syllabus Scriber',
-      link: ROUTES.HOME,
+      link: ROUTES.SYLLABUS_SCRIBER,
     },
 
     {
@@ -93,6 +93,8 @@ export function Container({
                   alt="Syllabus scribe"
                   fit="contain"
                   height={55}
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => navigate('/')}
                 />
               </Flex>
               <Flex gap={15} align={'center'} justify={'space-between'}>
@@ -135,7 +137,27 @@ export function Container({
                 </Flex>
               </Flex>
             )}
-            {!IS_MOBILE && data && !isLoading && (
+            <>
+              {error && (
+                <Flex align={'center'} justify={'center'} direction={'column'} w={'100%'} h={600}>
+                  <Text c={'red'}>
+                  {/* @ts-ignore */}
+                    {error?.data?.error || error?.data?.detail || 'Something Went wrong'}
+                  </Text>
+                  <Button
+                    w={rem(200)}
+                    mt={rem(25)}
+                    rightSection={<IconRefresh />}
+                    color="#7b7b7b"
+                    radius={'md'}
+                    onClick={() => refetch()}
+                  >
+                    Retry
+                  </Button>
+                </Flex>
+              )}
+            </>
+            {!error && !IS_MOBILE && data && !isLoading && (
               <Menu shadow="md" width={200}>
                 <Menu.Target>
                   <UserButton

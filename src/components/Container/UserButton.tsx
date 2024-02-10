@@ -21,7 +21,7 @@ export const UserButton = forwardRef<HTMLButtonElement, UserButtonProps>(
       {...others}
     >
       <Group>
-        <Avatar src={avatar} radius="xl" />
+        <Avatar src={`${import.meta.env.VITE_API_URL}/${avatar}`} radius="xl" />
 
         <div style={{ flex: 1 }}>
           <Flex>

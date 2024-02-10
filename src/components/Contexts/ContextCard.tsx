@@ -1,7 +1,9 @@
+import { Box, Button, Card, Divider, Flex, Menu, Modal, Text, rem } from '@mantine/core';
 import { ROUTES } from '@/constants/routes.enum';
-import { Box, Button, Card, Divider, Flex, Text, rem } from '@mantine/core';
-import { IconArrowBadgeRightFilled, IconSchool } from '@tabler/icons-react';
+import { IconArrowBadgeRightFilled, IconSchool, IconX } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
+import { Points } from '../points';
+import { useDisclosure } from '@mantine/hooks';
 
 export const ContextCard = ({
   content,
@@ -15,11 +17,15 @@ export const ContextCard = ({
   grade_level: string;
 }) => {
   const navigate = useNavigate();
+  const [opened, { open, close }] = useDisclosure(false);
+
   return (
     <Card
       style={{
         display: 'flex',
         flexDirection: 'column',
+        justifyContent: 'space-between',
+        minHeight: rem(357),
       }}
       shadow="sm"
       withBorder={true}
@@ -28,19 +34,22 @@ export const ContextCard = ({
     >
       <Card.Section p="lg">
         <Flex justify={'space-between'}>
-          <Text fw={600} ta={'left'} fz={'lg'}>
-            <Box
-              component="span"
-              style={{
-                display: 'block',
-                maxWidth: rem(500),
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              {topic}
-            </Box>
+          <Box fw={600} ta={'left'} fz={'lg'} w={'100%'}>
+            <Flex align={'center'} justify={'space-between'} w={'100%'}>
+              <Box
+                component="span"
+                style={{
+                  display: 'block',
+                  maxWidth: rem(300),
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {topic}
+              </Box>
+
+            </Flex>
             <Flex gap={8} align={'center'}>
               <IconSchool
                 color="#5085c6"
@@ -53,7 +62,7 @@ export const ContextCard = ({
                 {grade_level.charAt(0).toUpperCase() + grade_level.slice(1)}
               </Text>
             </Flex>
-          </Text>
+          </Box>
         </Flex>
       </Card.Section>
       <Divider />
@@ -70,8 +79,8 @@ export const ContextCard = ({
             whiteSpace: 'wrap',
           }}
         >
-          {content.split('\n').map((line) => (
-            <Text key={line}>{line}</Text>
+          {content.split('\n').map((line, index) => (
+            <Text key={index}>{line}</Text>
           ))}
         </Box>
       </Card.Section>
@@ -79,7 +88,7 @@ export const ContextCard = ({
         rightSection={<IconArrowBadgeRightFilled style={{ color: '#f0b206' }} />}
         bg="#2951dc"
         radius={10}
-        onClick={()=> navigate(`${ROUTES.EDUCATIONAL_GARAGE}${ROUTES.CONTEXT_BUILDER}/${id}`)}
+        onClick={() => navigate(`${ROUTES.EDUCATIONAL_GARAGE}${ROUTES.CONTEXT_BUILDER}/${id}`)}
       >
         Show more
       </Button>

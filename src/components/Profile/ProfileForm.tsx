@@ -1,4 +1,5 @@
 import { Optional } from '@/helpers/common.helper';
+import { useUpdateProfile } from '@/hooks/useUpdateProfile';
 import { UserService } from '@/services/user.service';
 import { IUser } from '@/types/user';
 import {
@@ -14,52 +15,46 @@ import {
   rem,
 } from '@mantine/core';
 import { useForm, zodResolver } from '@mantine/form';
+import { notifications } from '@mantine/notifications';
 import { IconPlus } from '@tabler/icons-react';
-import { forwardRef, useEffect, useRef } from 'react';
-import { useQuery } from 'react-query';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 
-const userservice = new UserService();
-const getUser = () => {
-  return userservice.currentUser();
-};
+const schema = z.object({
+  email: z.string().email({ message: 'Invalid email' }),
+  first_name: z.string().min(1, 'First name should be at least 3 characters').max(50),
+  last_name: z.string().min(1, 'Last name should be at least 3 characters').max(50),
+  username: z
+    .string()
+    .min(1, 'Username should be at least 3 characters')
+    .max(50, 'Username should be at most 50 characters'),
+});
 
-const schema = z
-  .object({
-    email: z.string().email({ message: 'Invalid email' }),
-    first_name: z.string().min(3, 'First name should be at least 3 characters').max(50),
-    last_name: z.string().min(3, 'Last name should be at least 3 characters').max(50),
-    username: z
-      .string()
-      .min(3, 'Username should be at least 3 characters')
-      .max(50, 'Username should be at most 50 characters'),
-    password: z
-      .string()
-      // should contain at least one number and one special character and one capital letter
-      .regex(/^(?=.*\d)(?=.*[!@#$%^&*()_+])[a-zA-Z0-9!@#$%^&*()_+]{6,}$/, {
-        message:
-          'Password should contain at least one number and one special character and one capital letter',
-      }),
-    // no access to form values
-    confirmPassword: z.string(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: 'Passwords do not match',
-    path: ['confirmPassword'],
-  });
+export const ProfileForm = ({
+  data,
+}: {
+  data: Optional<IUser, 'avatar'>;
+}) => {
+  const fileInputRef = useRef<HTMLButtonElement>(null);
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
 
+  const handleIconClick = () => {
+    fileInputRef.current?.click();
+  };
+  const handleFileChange = (files: File | null) => {
+    const file = files ?? null;
+    console.log(file);
+    setAvatarFile(file);
+  };
 
-export const ProfileForm = ({ data }: { data: Optional<IUser, 'avatar'> }) => {
-  // const fileInputRef=forwardRef<HTMLButtonElement>s();
-  // ForwardedRef<HTMLButtonElement> | undefined
+  const { loading, updateUser } = useUpdateProfile();
   const form = useForm<{
     email: string;
     first_name: string;
     last_name: string;
     username: string;
     bio: string;
-    avatar?: string;
   }>({
     initialValues: {
       email: '',
@@ -73,9 +68,26 @@ export const ProfileForm = ({ data }: { data: Optional<IUser, 'avatar'> }) => {
   });
 
   type FormValues = typeof form.values;
-  const navigate = useNavigate();
 
-  const handleFormSubmit = async (formData: FormValues) => {};
+  const handleFormSubmit = (formData: FormValues) => {
+    const payload = new FormData(); // Use FormData to handle file upload
+    payload.append('email', formData.email);
+    payload.append('username', formData.username);
+    payload.append('first_name', formData.first_name);
+    payload.append('last_name', formData.last_name);
+    if (avatarFile) {
+      payload.append('avatar', avatarFile);
+    }
+    updateUser(payload, {
+      onSuccess() {
+        notifications.show({
+          title: 'Success',
+          message: 'Profile was updated successfully',
+          color: 'green',
+        });
+      },
+    });
+  };
 
   useEffect(() => {
     if (data) form.setValues(data);
@@ -84,63 +96,78 @@ export const ProfileForm = ({ data }: { data: Optional<IUser, 'avatar'> }) => {
   return (
     <Box>
       <Flex justify={'center'}>
-        <Avatar w={rem(100)} h={rem(100)} src={`http://localhost:8000${data?.avatar}`} />
+        <Avatar w={rem(100)} h={rem(100)} src={`${import.meta.env.VITE_API_URL}/${data?.avatar}`} />
         <IconPlus
+          onClick={handleIconClick}
           style={{
             cursor: 'pointer',
           }}
         />
-        <FileInput display={'none'}/>
+        <FileInput
+          style={{ display: 'none' }} // Ensure this is styled to be hidden
+          onChange={handleFileChange}
+          accept="image/*" // Optional: Restrict to image files
+          ref={fileInputRef}
+        />
       </Flex>
       <Divider mt="lg" />
-      <Stack mt={'lg'} gap={'lg'}>
-        <Textarea label="Bio" placeholder="Bio" minRows={4} />
+      <form onSubmit={form.onSubmit((values) => handleFormSubmit(values))}>
+        <Stack mt={'lg'} gap={'lg'}>
+          <Textarea
+            label="Bio"
+            placeholder="Bio"
+            minRows={4}
+            value={form.values.bio}
+            onChange={(event) => form.setFieldValue('bio', event.currentTarget.value)}
+            error={form.errors.bio}
+          />
 
-        <Flex justify={'space-between'} gap="lg">
+          <Flex justify={'space-between'} gap="lg">
+            <TextInput
+              w={'100%'}
+              label="First name"
+              placeholder="first name"
+              value={form.values.first_name}
+              onChange={(event) => form.setFieldValue('first_name', event.currentTarget.value)}
+              error={form.errors.first_name}
+              radius="sm"
+            />
+
+            <TextInput
+              w={'100%'}
+              label="Last name"
+              placeholder="last name"
+              value={form.values.last_name}
+              onChange={(event) => form.setFieldValue('last_name', event.currentTarget.value)}
+              error={form.errors.last_name}
+              radius="sm"
+            />
+          </Flex>
+
           <TextInput
-            w={'100%'}
-            label="First name"
-            placeholder="first name"
-            value={form.values.first_name}
-            onChange={(event) => form.setFieldValue('first_name', event.currentTarget.value)}
-            error={form.errors.first_name}
+            required
+            label="Email"
+            placeholder="hello@example.dev"
+            value={form.values.email}
+            onChange={(event) => form.setFieldValue('email', event.currentTarget.value)}
+            error={form.errors.email}
+            radius="sm"
+          />
+          <TextInput
+            required
+            label="Username"
+            placeholder="username"
+            value={form.values.username}
+            onChange={(event) => form.setFieldValue('username', event.currentTarget.value)}
+            error={form.errors.username}
             radius="sm"
           />
 
-          <TextInput
-            w={'100%'}
-            label="Last name"
-            placeholder="last name"
-            value={form.values.last_name}
-            onChange={(event) => form.setFieldValue('last_name', event.currentTarget.value)}
-            error={form.errors.last_name}
-            radius="sm"
-          />
-        </Flex>
-
-        <TextInput
-          required
-          label="Email"
-          placeholder="hello@example.dev"
-          value={form.values.email}
-          onChange={(event) => form.setFieldValue('email', event.currentTarget.value)}
-          error={form.errors.email}
-          radius="sm"
-        />
-        <TextInput
-          required
-          label="Username"
-          placeholder="username"
-          value={form.values.username}
-          onChange={(event) => form.setFieldValue('username', event.currentTarget.value)}
-          error={form.errors.username}
-          radius="sm"
-        />
-
-        <Button type="submit" radius="sm" color="#2951dc">
-          Edit Profile
-        </Button>
-      </Stack>
+          <Button loading={loading} type="submit" radius="sm" color="#2951dc">
+            Edit Profile
+          </Button>
+        </Stack>
+      </form>
     </Box>
   );
 };

@@ -1,5 +1,5 @@
 import { Container, GeneratePlanForm, GeneratePresentationForm, Plans } from '@/components';
-import { Units } from '@/components/Units';
+import { Units } from '@/components';
 import { Divider, Flex, Text } from '@mantine/core';
 import { motion } from 'framer-motion';
 const UnitPlanner = () => {

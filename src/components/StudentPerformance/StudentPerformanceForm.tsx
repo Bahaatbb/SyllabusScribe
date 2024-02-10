@@ -198,7 +198,6 @@ function StudentPerformanceForm() {
     parse(file, {
       complete: (results) => {
         const contents = results.data.map((row: any) => {
-          console.log(row)
           const {
             hours_studied,
             previous_score,

@@ -1,10 +1,8 @@
-import { Card, Flex, Box, Group, Spoiler, Button, Text } from '@mantine/core';
+import { Card, Flex, Box, Group, Button, Text } from '@mantine/core';
 import {
-  IconFileTypePpt,
-  IconArrowBadgeRight,
   IconArrowBadgeRightFilled,
 } from '@tabler/icons-react';
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 
 interface IEducationCardProps {
@@ -16,7 +14,7 @@ interface IEducationCardProps {
 }
 const EducationCard = ({ icon, title, description, link, linkText }: IEducationCardProps) => {
   return (
-    <Card className="education-card" shadow="sm" padding="lg" radius="md" withBorder>
+    <Card style={{minHeight: '320px', display:'flex', justifyContent:'space-between' }} className="education-card" shadow="sm" padding="lg" radius="md" withBorder>
       <Card.Section withBorder px={'lg'} pt="xs">
         <Flex align={'center'}>
           <Box mr="xs">{icon}</Box>
@@ -26,11 +24,9 @@ const EducationCard = ({ icon, title, description, link, linkText }: IEducationC
         </Flex>
       </Card.Section>
       <Card.Section p="lg">
-        <Spoiler maxHeight={120} showLabel="Show more" hideLabel="Hide">
-          <Text size="sm" c="dimmed">
-            {description}
-          </Text>
-        </Spoiler>
+        <Text size="sm" c="dimmed">
+          {description}
+        </Text>
       </Card.Section>
       <Button
         component={Link}

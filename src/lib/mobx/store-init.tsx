@@ -10,7 +10,7 @@ const MobxStoreInit = () => {
   useEffect(() => {
     const authToken = Cookie.get("accessToken") || null;
     if (authToken) userStore.fetchCurrentUser();
-  }, [userStore]);
+  }, [userStore, window.location.href]);
 
   return <></>;
 };

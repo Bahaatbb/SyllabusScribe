@@ -9,7 +9,7 @@ const StudentPerformanceModel = () => {
 
   return (
     <motion.div initial="hidden" animate="visible" variants={containerVariants}>
-      <Container title="Lesson Planner" has_parent>
+      <Container title="Student Performace" has_parent>
         <StudentPerformance />
       </Container>
     </motion.div>

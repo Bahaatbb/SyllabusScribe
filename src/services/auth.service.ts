@@ -20,7 +20,8 @@ export class AuthService extends APIService {
       });
   }
 
-  async Register(data: { email: string; password: string }) {
+  async Register(data: any) {
+    console.log(data)
     return this.post('/api/auth/signup/', data, { headers: {} })
       .then((response) => {
         return response?.data;
@@ -40,6 +41,8 @@ export class AuthService extends APIService {
     return this.post('/api/token/refresh/', { refresh: this.getRefreshToken() })
       .then((response) => {
         this.setAccessToken(response?.data?.access);
+        //@ts-ignore
+        this.refreshToken(response?.data?.refresh);
         return response?.data;
       })
       .catch((error) => {
