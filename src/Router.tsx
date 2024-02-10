@@ -20,6 +20,7 @@ import {
   Profile
 } from './pages';
 import { ROUTES } from './constants/routes.enum';
+import { NotFound } from './pages/NotFound';
 
 const router = createBrowserRouter([
   {
@@ -93,6 +94,10 @@ const router = createBrowserRouter([
   {
     path: ROUTES.PROFILE,
     element: <Profile />
+  },
+  {
+    path: '*',
+    element: <NotFound />
   }
 ]);
 
